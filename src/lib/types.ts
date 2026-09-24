@@ -40,6 +40,15 @@ export interface Uja {
   avenue_id: string;
   description: string | null;
   status: 'draft' | 'pendente_aprovacao' | 'active' | 'paused';
+  is_open: boolean;
+  image_raw_url: string | null;
+  image_url: string | null;
+  logo_raw_url: string | null;
+  logo_url: string | null;
+  pickup_enabled: boolean;
+  pickup_address: string | null;
+  whatsapp: string | null;
+  phone: string | null;
   vendor?: Vendor;
   avenue?: Avenue;
   products?: Product[];
@@ -48,7 +57,6 @@ export interface Uja {
 export interface Product {
   id: string;
   uja_id: string;
-  vendor_id: string;
   raw_name: string | null;
   raw_description: string | null;
   raw_photos: string[] | null;
@@ -63,6 +71,25 @@ export interface Product {
   featured: boolean;
   auto_generated: boolean;
   admin_reviewed: boolean;
+  needs_review: boolean;
+  options?: ProductOption[];
+}
+
+export interface ProductOption {
+  id: string;
+  product_id: string;
+  name: string;
+  position: number;
+  active: boolean;
+}
+
+export interface UjaDeliveryZone {
+  id: string;
+  uja_id: string;
+  name: string;
+  fee_kz: number;
+  active: boolean;
+  position: number;
 }
 
 export interface Bur {
@@ -89,28 +116,75 @@ export interface Buyer {
   total_purchases: number;
 }
 
-export type OrderStatus = 'criado' | 'pago' | 'confirmado' | 'entregue' | 'cancelado' | 'disputado';
-export type PaymentStatus = 'pendente' | 'pago' | 'falhado' | 'reembolsado';
+// Pedido: compra directa, 1 produto. Valores são snapshot calculado pelo servidor.
+export type OrderStatus = 'new' | 'delivering' | 'completed' | 'cancelled';
+export type DeliveryMode = 'delivery' | 'pickup';
 
 export interface Order {
   id: string;
   order_number: string;
   product_id: string;
   uja_id: string;
-  vendor_id: string;
   buyer_id: string;
+  option_id: string | null;
+  option_name: string | null;
   price_kz: number;
   quantity: number;
+  delivery_fee_kz: number;
   total_kz: number;
-  payment_method: string;
-  payment_ref: string | null;
-  payment_status: PaymentStatus;
-  delivery_mode: string | null;
+  delivery_mode: DeliveryMode;
+  delivery_zone_id: string | null;
+  delivery_zone_name: string | null;
+  delivery_address: string | null;
   delivery_notes: string | null;
   status: OrderStatus;
+  delivering_at: string | null;
+  completed_at: string | null;
+  cancelled_at: string | null;
+  created_at: string;
   product?: Product;
-  vendor?: Vendor;
   buyer?: Buyer;
+}
+
+// Pagamento: abstracto. Nenhum prestador no domínio — `provider` é configuração.
+// 'confirmed' = a Monira recebeu uma confirmação válida. O UI mostra "Pago".
+export type PaymentRequestStatus = 'requested' | 'confirmed' | 'failed' | 'expired';
+export type OrderPaymentState = PaymentRequestStatus | 'none';
+
+export interface MerchantAccount {
+  id: string;
+  vendor_id: string;
+  provider: string;
+  status: 'pending' | 'active' | 'disabled';
+}
+
+export interface PaymentRequest {
+  id: string;
+  order_id: string;
+  provider: string;
+  amount_kz: number;
+  status: PaymentRequestStatus;
+  requested_at: string;
+  expires_at: string;
+  resolved_at: string | null;
+}
+
+export interface Conversation {
+  id: string;
+  uja_id: string;
+  customer_id: string;
+  product_id: string | null;
+  order_id: string | null;
+  created_at: string;
+  last_message_at: string | null;
+}
+
+export interface Message {
+  id: string;
+  conversation_id: string;
+  sender_user_id: string;
+  body: string;
+  created_at: string;
 }
 
 export interface Review {
