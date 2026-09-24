@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { createClient } from '@/lib/db/server';
 import { PUBLIC_PRODUCT_COLUMNS, type PublicProduct, isReady, photoUrl, formatKz } from '@/lib/public';
+import { VerifiedMark } from '../../_components/ProductGrid';
 import styles from './produto.module.css';
 
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
@@ -15,7 +16,7 @@ async function load(id: string) {
   if (!product || !isReady(product)) return null;
 
   const [{ data: uja }, { data: options }] = await Promise.all([
-    supabase.from('monira_public_ujas').select('id, name, verified, avenue_id').eq('id', product.uja_id).maybeSingle(),
+    supabase.from('monira_public_ujas').select('id, name, slug, verified, avenue_id').eq('id', product.uja_id).maybeSingle(),
     supabase.from('monira_product_options').select('name, position').eq('product_id', id).eq('active', true).order('position'),
   ]);
   const { data: avenue } = uja?.avenue_id
@@ -71,18 +72,16 @@ export default async function ProdutoPage(props: PageProps<'/produto/[id]'>) {
         )}
 
         {uja && (
-          <div className={styles.seller}>
-            <span className={styles.sellerLabel}>Vendido por</span>
-            <span className={styles.sellerName}>
-              Uja {uja.name}{avenue?.name ? ` — Avenida ${avenue.name}` : ''}
-              {uja.verified && (
-                <svg aria-label="Uja verificada" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#6b21a8" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-                  <circle cx="12" cy="12" r="9" />
-                  <path d="M8 12.5l2.7 2.5L16 9.5" />
-                </svg>
-              )}
+          <Link href={`/uja/${uja.slug}`} className={styles.seller}>
+            <span className={styles.sellerText}>
+              <span className={styles.sellerLabel}>Vendido por</span>
+              <span className={styles.sellerName}>
+                Uja {uja.name}{avenue?.name ? ` — Avenida ${avenue.name}` : ''}
+                {uja.verified && <VerifiedMark />}
+              </span>
             </span>
-          </div>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8a8a8a" strokeWidth="1.8" strokeLinecap="round" aria-hidden="true"><path d="M9 6l6 6-6 6" /></svg>
+          </Link>
         )}
       </section>
     </main>

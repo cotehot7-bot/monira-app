@@ -1,0 +1,29 @@
+/* Uja pública — referência visual: monira-v0.1.html */
+.screen {
+  --ink: #1a1a1a; --muted: #6b6b6b;
+  max-width: 560px; margin: 0 auto; min-height: 100dvh;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: calc(40px + env(safe-area-inset-bottom, 0px));
+  background: #fff; color: var(--ink);
+  font-family: 'Instrument Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+.top { height: 56px; padding: 6px 12px 0; display: flex; align-items: center; }
+.back { width: 44px; height: 44px; border-radius: 22px; display: flex; align-items: center; justify-content: center; color: var(--ink); }
+.cover { width: 100%; aspect-ratio: 16 / 10; object-fit: cover; }
+.identity { padding: 16px 20px 0; display: flex; flex-direction: column; gap: 6px; }
+.logo, .monogram { width: 72px; height: 72px; border-radius: 18px; border: 1px solid #efefef; margin-bottom: 10px; }
+.logo { object-fit: cover; }
+.monogram {
+  display: flex; align-items: center; justify-content: center;
+  background: #f4f4f3; font-family: 'Fraunces', Georgia, serif; font-size: 32px;
+}
+.eyebrow { font-size: 12px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+.name { display: flex; align-items: center; gap: 8px; font-family: 'Fraunces', Georgia, serif; font-weight: 400; font-size: 32px; letter-spacing: -0.02em; line-height: 1.1; }
+.status { display: flex; align-items: center; gap: 8px; font-size: 15px; color: #3a3a3a; }
+.dotOpen, .dotClosed { width: 8px; height: 8px; border-radius: 4px; }
+.dotOpen { background: #1f8a4c; }
+.dotClosed { background: #b0b0b0; }
+.about { margin-top: 8px; font-size: 16px; line-height: 1.5; color: #3a3a3a; white-space: pre-line; }
+.products { padding: 36px 20px 0; display: flex; flex-direction: column; gap: 16px; }
+.sectionTitle { font-family: 'Fraunces', Georgia, serif; font-weight: 400; font-size: 26px; letter-spacing: -0.02em; }
+.empty { font-size: 16px; color: var(--muted); }

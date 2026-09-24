@@ -20,12 +20,5 @@
 .sectionTitle { font-family: 'Fraunces', Georgia, serif; font-weight: 400; font-size: 28px; letter-spacing: -0.02em; }
 .empty { font-size: 16px; color: var(--muted); }
 
-.grid { list-style: none; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 12px; row-gap: 28px; }
-.card { display: flex; flex-direction: column; gap: 6px; }
-.photo { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; border-radius: 14px; background: #efedea; }
-.name { margin-top: 2px; font-size: 15px; font-weight: 600; line-height: 1.3; }
-.price { font-size: 14px; font-weight: 500; }
-.uja { display: inline-flex; align-items: center; gap: 5px; font-size: 13px; color: var(--muted); }
-.soldOut { font-size: 13px; color: #a12b2b; }
 
 .srOnly { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }

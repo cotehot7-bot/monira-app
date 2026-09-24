@@ -34,6 +34,7 @@
 .optionsLabel { font-size: 14px; color: var(--muted); }
 .chips { list-style: none; display: flex; flex-wrap: wrap; gap: 8px; }
 .chip { height: 36px; padding: 0 14px; border-radius: 18px; border: 1px solid #dedede; font-size: 14px; display: flex; align-items: center; }
-.seller { margin-top: 24px; padding: 14px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); display: flex; flex-direction: column; gap: 2px; }
+.seller { margin-top: 24px; padding: 14px 0; min-height: 44px; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.sellerText { display: flex; flex-direction: column; gap: 2px; }
 .sellerLabel { font-size: 13px; color: var(--muted); }
 .sellerName { display: inline-flex; align-items: center; gap: 6px; font-size: 15px; font-weight: 600; }

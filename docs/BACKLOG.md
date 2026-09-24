@@ -9,8 +9,10 @@ Problemas observados a usar o produto real. Só entram aqui descobertas de uso, 
   quatro envios do mesmo iPhone durante o primeiro teste.
 - **Adicionar produto: sem saída depois de "Recebido."** Quem vende não tem para onde ir a seguir.
   Resolve-se com o Painel.
+- **Revisão: corrigir a apresentação de um produto já publicado** (nome, descrição, fotos).
+  Observado a 24 Set 2026: nome publicado como "IPhone" e descrição com aspas a mais; corrigido por SQL.
 
 ## Próximas fatias
 
-1. Início ✓ → Produto público ✓ (mínimo, sem Comprar/Conversar) → Uja pública
+1. Início ✓ → Produto público ✓ (mínimo, sem Comprar/Conversar) → Uja pública ✓ (sem Conversar/contactos/métricas)
 2. Depois: enriquecer o Painel.
