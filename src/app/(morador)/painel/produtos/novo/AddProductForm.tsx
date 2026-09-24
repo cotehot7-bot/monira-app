@@ -3,7 +3,7 @@
 import { useActionState, useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { createClient } from '@/lib/db/browser';
-import { submitProduct, type SubmitState } from './actions';
+import { resubmitProduct, submitProduct, type SubmitState } from './actions';
 import styles from './page.module.css';
 
 const MAX_PHOTOS = 8;
@@ -12,10 +12,23 @@ const BUCKET = 'monira-raw';
 
 type Photo = {
   key: string;
-  file: File;
+  file?: File;     // ausente em fotografias já enviadas antes (modo Corrigir)
   preview: string;
-  path?: string; // preenchido depois do envio, para não reenviar numa nova tentativa
+  path?: string;   // preenchido depois do envio, para não reenviar numa nova tentativa
 };
+
+export type EditInitial = {
+  productId: string;
+  name: string;
+  price: number;
+  description: string;
+  options: string[];
+  photos: { path: string; url: string }[];
+};
+
+function revoke(p: Photo) {
+  if (p.preview.startsWith('blob:')) URL.revokeObjectURL(p.preview);
+}
 
 function formatKz(digits: string) {
   return digits.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
@@ -27,10 +40,12 @@ function extensionOf(file: File) {
   return file.type.split('/')[1] ?? 'jpg';
 }
 
-export default function AddProductForm({ ujaId }: { ujaId: string }) {
-  const [photos, setPhotos] = useState<Photo[]>([]);
-  const [price, setPrice] = useState('');
-  const [options, setOptions] = useState<string[]>([]);
+export default function AddProductForm({ ujaId, edit }: { ujaId: string; edit?: EditInitial }) {
+  const [photos, setPhotos] = useState<Photo[]>(
+    () => edit?.photos.map((p) => ({ key: p.path, preview: p.url, path: p.path })) ?? [],
+  );
+  const [price, setPrice] = useState(edit ? formatKz(String(Math.round(edit.price))) : '');
+  const [options, setOptions] = useState<string[]>(edit?.options ?? []);
   const [optionDraft, setOptionDraft] = useState('');
   const fileInput = useRef<HTMLInputElement>(null);
   const photosRef = useRef(photos);
@@ -40,7 +55,7 @@ export default function AddProductForm({ ujaId }: { ujaId: string }) {
   }, [photos]);
 
   // Libertar as pré-visualizações quando o ecrã sai.
-  useEffect(() => () => photosRef.current.forEach((p) => URL.revokeObjectURL(p.preview)), []);
+  useEffect(() => () => photosRef.current.forEach(revoke), []);
 
   const [state, formAction, pending] = useActionState<SubmitState, FormData>(
     async (prev, formData) => {
@@ -55,10 +70,11 @@ export default function AddProductForm({ ujaId }: { ujaId: string }) {
           uploaded.push(photo);
           continue;
         }
-        const path = `${ujaId}/${crypto.randomUUID()}.${extensionOf(photo.file)}`;
+        const file = photo.file!;
+        const path = `${ujaId}/${crypto.randomUUID()}.${extensionOf(file)}`;
         const { error } = await supabase.storage
           .from(BUCKET)
-          .upload(path, photo.file, { contentType: photo.file.type || undefined, upsert: false });
+          .upload(path, file, { contentType: file.type || undefined, upsert: false });
         if (error) {
           setPhotos([...uploaded, ...photos.slice(uploaded.length)]);
           return { status: 'error', message: 'Não foi possível enviar as fotografias. Tenta outra vez.' };
@@ -69,7 +85,7 @@ export default function AddProductForm({ ujaId }: { ujaId: string }) {
 
       uploaded.forEach((p) => formData.append('photo_path', p.path!));
       options.forEach((o) => formData.append('option', o));
-      return submitProduct(prev, formData);
+      return edit ? resubmitProduct(edit.productId, prev, formData) : submitProduct(prev, formData);
     },
     { status: 'idle' },
   );
@@ -88,7 +104,7 @@ export default function AddProductForm({ ujaId }: { ujaId: string }) {
   function removePhoto(key: string) {
     setPhotos((current) => {
       const gone = current.find((p) => p.key === key);
-      if (gone) URL.revokeObjectURL(gone.preview);
+      if (gone) revoke(gone);
       return current.filter((p) => p.key !== key);
     });
   }
@@ -111,11 +127,11 @@ export default function AddProductForm({ ujaId }: { ujaId: string }) {
         <span className={styles.doneMark} aria-hidden="true">
           <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M6 12.5l4 4L18 8" /></svg>
         </span>
-        <h2 className={styles.doneTitle}>Recebido.</h2>
+        <h2 className={styles.doneTitle}>{edit ? 'Enviado de novo.' : 'Recebido.'}</h2>
         <p className={styles.doneText}>A Monira vai preparar o teu produto antes de o publicar.</p>
         <div className={styles.doneActions}>
           <Link href="/painel" className={styles.primaryLink}>Ver os meus produtos</Link>
-          <button type="button" className={styles.secondary} onClick={startOver}>Adicionar outro</button>
+          {!edit && <button type="button" className={styles.secondary} onClick={startOver}>Adicionar outro</button>}
         </div>
       </section>
     );
@@ -165,7 +181,7 @@ export default function AddProductForm({ ujaId }: { ujaId: string }) {
       <section className={styles.fields}>
         <div className={styles.field}>
           <label htmlFor="raw_name" className={styles.label}>Nome</label>
-          <input id="raw_name" name="raw_name" type="text" maxLength={120} required autoComplete="off" className={styles.input} />
+          <input id="raw_name" name="raw_name" type="text" maxLength={120} required autoComplete="off" defaultValue={edit?.name} className={styles.input} />
         </div>
 
         <div className={styles.field}>
@@ -189,7 +205,7 @@ export default function AddProductForm({ ujaId }: { ujaId: string }) {
         <div className={styles.field}>
           <label htmlFor="raw_description" className={styles.label}>Sobre o produto</label>
           <p id="about-hint" className={styles.hintTight}>Conta-nos o essencial. A Monira trata da apresentação.</p>
-          <textarea id="raw_description" name="raw_description" rows={3} maxLength={2000} aria-describedby="about-hint" className={styles.textarea} />
+          <textarea id="raw_description" name="raw_description" rows={3} maxLength={2000} aria-describedby="about-hint" defaultValue={edit?.description} className={styles.textarea} />
         </div>
 
         <div className={styles.field}>
@@ -229,7 +245,7 @@ export default function AddProductForm({ ujaId }: { ujaId: string }) {
       <div className={styles.footer}>
         {state.status === 'error' && <p className={styles.error} role="alert">{state.message}</p>}
         <button type="submit" className={styles.primary} disabled={pending}>
-          {pending ? 'A publicar…' : 'Publicar na Uja'}
+          {pending ? 'A enviar…' : edit ? 'Enviar de novo' : 'Publicar na Uja'}
         </button>
       </div>
     </form>

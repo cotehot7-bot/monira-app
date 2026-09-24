@@ -129,3 +129,7 @@
 }
 
 .srOnly { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* Pedido da Monira (modo Corrigir) */
+.attention { margin: 16px 20px 0; padding: 14px 16px; border-radius: 16px; background: #fbf1e2; color: #6b460e; font-size: 15px; line-height: 1.45; }
+.attention strong { display: block; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 4px; }

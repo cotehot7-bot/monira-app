@@ -44,3 +44,19 @@
 .error { font-size: 14px; color: #a12b2b; }
 .primary { height: 56px; border: 0; border-radius: 28px; background: var(--purple); color: #fff; font: inherit; font-size: 17px; font-weight: 600; cursor: pointer; }
 .primary:disabled { opacity: 0.7; cursor: default; }
+
+/* Grupos editoriais e acções secundárias */
+.group { padding-top: 12px; }
+.groupTitle { padding: 20px 20px 0; font-size: 13px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+.attention { margin: 16px 20px 0; padding: 14px 16px; border-radius: 16px; background: #fbf1e2; color: #6b460e; font-size: 15px; line-height: 1.45; }
+.attention strong { display: block; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 4px; }
+.editorial { margin: 28px 20px 0; padding-top: 20px; border-top: 1px solid #efefef; display: flex; flex-direction: column; gap: 10px; }
+.secondary { height: 52px; border-radius: 26px; border: 1px solid var(--ink); background: #fff; font: inherit; font-size: 16px; font-weight: 600; color: var(--ink); cursor: pointer; }
+.secondary:disabled { opacity: 0.6; cursor: default; }
+.danger { margin: 28px 20px 0; border: 1px solid #f0d4d4; border-radius: 16px; padding: 4px 16px; }
+.danger summary { min-height: 48px; display: flex; align-items: center; font-size: 15px; font-weight: 500; color: #a12b2b; cursor: pointer; }
+.dangerBody { padding: 4px 0 16px; display: flex; flex-direction: column; gap: 10px; font-size: 14px; color: #3a3a3a; line-height: 1.45; }
+.dangerButton { height: 48px; border-radius: 24px; border: 0; background: #a12b2b; color: #fff; font: inherit; font-size: 15px; font-weight: 600; cursor: pointer; }
+.history { margin: 28px 20px 40px; display: flex; flex-direction: column; gap: 8px; }
+.historyItem { font-size: 14px; color: #3a3a3a; line-height: 1.45; }
+.historyItem time { color: var(--muted); margin-right: 6px; }

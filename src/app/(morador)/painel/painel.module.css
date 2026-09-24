@@ -25,9 +25,12 @@
 .rowText { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 3px; }
 .rowTitle { font-size: 16px; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .rowPrice { font-size: 14px; color: #3a3a3a; }
-.published, .inReview { align-self: flex-start; margin-top: 2px; padding: 3px 10px; border-radius: 12px; font-size: 13px; font-weight: 600; }
+.published, .in_review, .attention { align-self: flex-start; margin-top: 2px; padding: 3px 10px; border-radius: 12px; font-size: 13px; font-weight: 600; }
 .published { background: #eaf4ee; color: #1b6e3e; }
-.inReview { background: var(--soft); color: #4a4a4a; }
+.in_review { background: var(--soft); color: #4a4a4a; }
+.attention { background: #fbf1e2; color: #8a5a12; }
+.note { margin-top: 4px; font-size: 14px; line-height: 1.4; color: #3a3a3a; }
+.fix { flex-shrink: 0; font-size: 15px; font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
 
 .footer { padding: 28px 20px 0; font-size: 15px; }
 .footer a { text-decoration: underline; text-underline-offset: 3px; min-height: 44px; display: inline-flex; align-items: center; }

@@ -13,7 +13,15 @@ const MESSAGES: Record<string, string> = {
   invalid_description: 'A descrição tem de ter até 1000 caracteres.',
   invalid_photos: 'Escolhe entre 1 e 8 fotografias.',
   product_not_found: 'Este produto já não existe.',
+  invalid_note: 'Escreve o que precisa de mudar (até 500 caracteres).',
+  already_published: 'Este produto já foi publicado. Não se apaga: pede alterações.',
+  has_orders: 'Este produto tem pedidos. Não se apaga.',
 };
+
+function known(message: string) {
+  const code = Object.keys(MESSAGES).find((c) => message.includes(c));
+  return code ? MESSAGES[code] : null;
+}
 
 // A Monira trata a fotografia antes de a tornar pública:
 // endireita (EXIF), limita a 1600 px, converte para JPEG e retira os metadados (incluindo GPS).
@@ -71,12 +79,37 @@ export async function publishProduct(productId: string, _prev: PublishState, for
     p_description: description || null,
     p_photos: published,
   });
-  if (error) {
-    const known = Object.keys(MESSAGES).find((code) => error.message.includes(code));
-    return { status: 'error', message: known ? MESSAGES[known] : 'Não foi possível publicar. Tenta outra vez.' };
-  }
+  if (error) return { status: 'error', message: known(error.message) ?? 'Não foi possível publicar. Tenta outra vez.' };
 
   revalidatePath('/revisao');
   revalidatePath('/');
   redirect('/revisao?publicado=1');
+}
+
+// Pedir alterações: decisão editorial. Fica no histórico; quem vende vê "Precisa de atenção".
+export async function requestChanges(productId: string, _prev: PublishState, formData: FormData): Promise<PublishState> {
+  const supabase = await createClient();
+  const note = String(formData.get('note') ?? '').trim();
+  if (!note) return { status: 'error', message: MESSAGES.invalid_note };
+
+  const { error } = await supabase.rpc('monira_admin_request_changes', { p_product_id: productId, p_note: note });
+  if (error) return { status: 'error', message: known(error.message) ?? 'Não foi possível enviar o pedido.' };
+
+  revalidatePath('/revisao');
+  revalidatePath('/painel');
+  redirect('/revisao?pedido=1');
+}
+
+// Apagar: destrutivo. Só envios nunca publicados; remove também as fotografias originais.
+export async function deleteProduct(productId: string): Promise<PublishState> {
+  const supabase = await createClient();
+  const { data: rawPhotos, error } = await supabase.rpc('monira_admin_delete_product', { p_product_id: productId });
+  if (error) return { status: 'error', message: known(error.message) ?? 'Não foi possível apagar.' };
+
+  const paths = (rawPhotos ?? []) as string[];
+  if (paths.length) await supabase.storage.from('monira-raw').remove(paths);
+
+  revalidatePath('/revisao');
+  revalidatePath('/painel');
+  redirect('/revisao?apagado=1');
 }

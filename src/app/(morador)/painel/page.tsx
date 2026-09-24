@@ -10,9 +10,9 @@ import styles from './painel.module.css';
 export const metadata: Metadata = { title: 'Painel · Monira' };
 
 // Estados que quem vende vê. Os estados internos (admin_reviewed, needs_review…) ficam na Monira.
-// "Precisa de atenção" entra quando a revisão puder pedir alterações.
-type SellerStatus = 'published' | 'in_review';
+type SellerStatus = 'attention' | 'published' | 'in_review';
 const STATUS_LABEL: Record<SellerStatus, string> = {
+  attention: 'Precisa de atenção',
   published: 'Publicado',
   in_review: 'Em revisão',
 };
@@ -25,6 +25,7 @@ type OwnProduct = {
   raw_photos: string[] | null;
   photos: string[] | null;
   admin_reviewed: boolean;
+  attention_note: string | null;
   created_at: string;
 };
 
@@ -47,14 +48,14 @@ export default async function PainelPage() {
 
   const { data } = await supabase
     .from('monira_products')
-    .select('id, raw_name, name, price_kz, raw_photos, photos, admin_reviewed, created_at')
+    .select('id, raw_name, name, price_kz, raw_photos, photos, admin_reviewed, attention_note, created_at')
     .eq('uja_id', uja.id)
     .eq('active', true)
     .order('created_at', { ascending: false });
   const products = (data ?? []) as OwnProduct[];
 
   // Em revisão ainda não há foto pública: mostra-se o original, que só quem vende consegue abrir.
-  const rawFirst = products.filter((p) => !p.admin_reviewed && p.raw_photos?.[0]).map((p) => p.raw_photos![0]);
+  const rawFirst = products.filter((p) => (!p.admin_reviewed || p.attention_note) && p.raw_photos?.[0]).map((p) => p.raw_photos![0]);
   const { data: signed } = rawFirst.length
     ? await supabase.storage.from('monira-raw').createSignedUrls(rawFirst, 600)
     : { data: [] };
@@ -82,7 +83,7 @@ export default async function PainelPage() {
         ) : (
           <ul className={styles.list}>
             {products.map((p) => {
-              const status: SellerStatus = p.admin_reviewed ? 'published' : 'in_review';
+              const status: SellerStatus = p.attention_note ? 'attention' : p.admin_reviewed ? 'published' : 'in_review';
               const title = (status === 'published' ? p.name : null) ?? p.raw_name ?? 'Produto';
               const src =
                 status === 'published' && p.photos?.[0]
@@ -100,14 +101,20 @@ export default async function PainelPage() {
                   <span className={styles.rowText}>
                     <span className={styles.rowTitle}>{title}</span>
                     <span className={styles.rowPrice}>{formatKz(p.price_kz)}</span>
-                    <span className={status === 'published' ? styles.published : styles.inReview}>{STATUS_LABEL[status]}</span>
+                    <span className={styles[status]}>{STATUS_LABEL[status]}</span>
+                    {status === 'attention' && <span className={styles.note}>{p.attention_note}</span>}
                   </span>
                 </>
               );
 
               return (
                 <li key={p.id}>
-                  {status === 'published' ? (
+                  {status === 'attention' ? (
+                    <Link href={`/painel/produtos/${p.id}/corrigir`} className={styles.row}>
+                      {content}
+                      <span className={styles.fix}>Corrigir</span>
+                    </Link>
+                  ) : status === 'published' ? (
                     <Link href={`/produto/${p.id}`} className={styles.row}>
                       {content}
                       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8a8a8a" strokeWidth="1.8" strokeLinecap="round" aria-hidden="true"><path d="M9 6l6 6-6 6" /></svg>

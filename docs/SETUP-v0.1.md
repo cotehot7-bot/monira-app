@@ -39,3 +39,6 @@ Fotografias: o original fica em `monira-raw` (privado). Ao publicar, a Monira ge
 uma versão JPEG até 1600 px, sem metadados (incluindo GPS), em `monira-public`.
 Fotos HEIC não são lidas pelo servidor; o formulário pede `image/*` para o iPhone
 converter para JPEG ao escolher.
+
+## Poder editorial (005)
+Correr `src/data/migrations/005_editorial.sql`. Sem mais configuração.
