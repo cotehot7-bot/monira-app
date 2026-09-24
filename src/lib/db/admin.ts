@@ -14,7 +14,3 @@ export async function requireAdmin(nextPath: string) {
 
   return supabase;
 }
-
-export function publicPhotoUrl(path: string) {
-  return `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/monira-public/${path}`;
-}

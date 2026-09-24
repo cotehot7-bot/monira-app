@@ -1,0 +1,39 @@
+/* Produto público — referência visual: monira-v0.1.html */
+.screen {
+  --ink: #1a1a1a; --muted: #6b6b6b; --line: #efefef;
+  max-width: 560px; margin: 0 auto; min-height: 100dvh;
+  padding-bottom: calc(40px + env(safe-area-inset-bottom, 0px));
+  background: #fff; color: var(--ink);
+  font-family: 'Instrument Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+.gallery {
+  position: relative;
+  display: flex; overflow-x: auto; scroll-snap-type: x mandatory;
+  background: #f2f1ef;
+  scrollbar-width: none;
+}
+.gallery::-webkit-scrollbar { display: none; }
+.photo { flex: 0 0 100%; width: 100%; aspect-ratio: 4 / 5; object-fit: cover; scroll-snap-align: start; }
+.back {
+  position: absolute; top: calc(12px + env(safe-area-inset-top, 0px)); left: 12px;
+  width: 44px; height: 44px; border-radius: 22px;
+  background: rgba(255, 255, 255, 0.92); color: var(--ink);
+  display: flex; align-items: center; justify-content: center;
+}
+.count {
+  position: absolute; right: 12px; bottom: 12px;
+  padding: 4px 10px; border-radius: 12px; background: rgba(255, 255, 255, 0.92);
+  font-size: 13px; font-weight: 500;
+}
+.body { padding: 24px 20px 0; display: flex; flex-direction: column; gap: 6px; }
+.name { font-family: 'Fraunces', Georgia, serif; font-weight: 400; font-size: 30px; line-height: 1.1; letter-spacing: -0.02em; }
+.price { font-size: 20px; font-weight: 500; }
+.soldOut { font-size: 15px; color: #a12b2b; }
+.description { margin-top: 10px; font-size: 16px; line-height: 1.5; color: #3a3a3a; white-space: pre-line; }
+.options { margin-top: 18px; display: flex; flex-direction: column; gap: 10px; }
+.optionsLabel { font-size: 14px; color: var(--muted); }
+.chips { list-style: none; display: flex; flex-wrap: wrap; gap: 8px; }
+.chip { height: 36px; padding: 0 14px; border-radius: 18px; border: 1px solid #dedede; font-size: 14px; display: flex; align-items: center; }
+.seller { margin-top: 24px; padding: 14px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); display: flex; flex-direction: column; gap: 2px; }
+.sellerLabel { font-size: 13px; color: var(--muted); }
+.sellerName { display: inline-flex; align-items: center; gap: 6px; font-size: 15px; font-weight: 600; }

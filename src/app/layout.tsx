@@ -3,13 +3,12 @@ import './globals.css';
 
 export const metadata: Metadata = {
   title: 'Monira',
-  description: 'A cidade digital onde o comércio acontece.',
+  description: 'Descobre o que chegou à Monira.',
 };
 
 export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
-  maximumScale: 1,
   viewportFit: 'cover',
   themeColor: '#FFFFFF',
 };
