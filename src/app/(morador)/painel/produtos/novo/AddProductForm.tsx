@@ -77,7 +77,7 @@ export default function AddProductForm({ ujaId }: { ujaId: string }) {
     if (!list) return;
     const room = MAX_PHOTOS - photos.length;
     const next = Array.from(list)
-      .filter((f) => f.type.startsWith('image/') || /\.(heic|heif)$/i.test(f.name))
+      .filter((f) => f.type.startsWith('image/'))
       .slice(0, room)
       .map((file) => ({ key: crypto.randomUUID(), file, preview: URL.createObjectURL(file) }));
     setPhotos((current) => [...current, ...next]);
@@ -152,8 +152,9 @@ export default function AddProductForm({ ujaId }: { ujaId: string }) {
             </button>
           )}
         </div>
-        {/* Sem `name`: os ficheiros não seguem para a Server Action, só os caminhos. */}
-        <input ref={fileInput} type="file" accept="image/*,.heic,.heif" multiple hidden onChange={(e) => addFiles(e.target.files)} />
+        {/* Sem `name`: os ficheiros não seguem para a Server Action, só os caminhos.
+            accept="image/*" (sem .heic) faz o iPhone converter as fotos para JPEG ao escolher. */}
+        <input ref={fileInput} type="file" accept="image/*" multiple hidden onChange={(e) => addFiles(e.target.files)} />
         <p className={styles.hint}>A primeira foto será a principal do produto.</p>
       </section>
 

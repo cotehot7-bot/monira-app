@@ -28,3 +28,14 @@
 ## Testes locais da base de dados
 Com um Postgres 15+ vazio:
 `000_supabase_stub_LOCAL_ONLY.sql` → `schema.sql` → `seed.sql` → `002` → `003` → `900_*` → `910_*`.
+
+## Revisão (004)
+1. Correr `src/data/migrations/004_review.sql`.
+2. Tornar-te admin (és o único utilizador; se houver mais, trocar pelo teu email):
+   `insert into monira_admins (user_id) select id from auth.users order by created_at limit 1;`
+3. Abrir `/revisao`. Quem não é admin vê "página não encontrada".
+
+Fotografias: o original fica em `monira-raw` (privado). Ao publicar, a Monira gera
+uma versão JPEG até 1600 px, sem metadados (incluindo GPS), em `monira-public`.
+Fotos HEIC não são lidas pelo servidor; o formulário pede `image/*` para o iPhone
+converter para JPEG ao escolher.
