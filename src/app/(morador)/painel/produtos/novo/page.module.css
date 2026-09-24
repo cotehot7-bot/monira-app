@@ -20,7 +20,8 @@
   flex-direction: column;
 }
 
-.header { padding: 20px 20px 0; }
+.header { padding: 8px 20px 0; }
+.back { min-height: 44px; display: inline-flex; align-items: center; font-size: 15px; font-weight: 500; color: var(--ink); }
 .title { font-family: var(--display); font-weight: 400; font-size: 30px; letter-spacing: -0.02em; line-height: 1.1; }
 .subtitle { margin-top: 4px; font-size: 14px; color: var(--muted); }
 .empty { padding: 24px 20px; font-size: 16px; color: #3a3a3a; }
@@ -117,11 +118,13 @@
 
 /* Depois de publicar */
 .done { padding: 56px 24px; display: flex; flex-direction: column; gap: 14px; }
+.doneActions { margin-top: 12px; display: flex; flex-direction: column; gap: 10px; }
+.primaryLink { height: 52px; border-radius: 26px; background: var(--ink); color: #fff; font-size: 16px; font-weight: 600; display: flex; align-items: center; justify-content: center; }
 .doneMark { width: 56px; height: 56px; border-radius: 28px; background: var(--purple); color: #fff; display: flex; align-items: center; justify-content: center; }
 .doneTitle { font-family: var(--display); font-weight: 400; font-size: 36px; letter-spacing: -0.02em; }
 .doneText { font-size: 16px; line-height: 1.5; color: #3a3a3a; }
 .secondary {
-  margin-top: 12px; height: 52px; border-radius: 26px; border: 1px solid var(--ink);
+  height: 52px; border-radius: 26px; border: 1px solid var(--ink);
   background: #fff; font: inherit; font-size: 16px; font-weight: 600; color: var(--ink); cursor: pointer;
 }
 

@@ -1,6 +1,8 @@
 import type { Metadata } from 'next';
 import { redirect } from 'next/navigation';
 import { createClient } from '@/lib/db/server';
+import Link from 'next/link';
+import { getMyUja } from '@/lib/db/seller';
 import AddProductForm from './AddProductForm';
 import styles from './page.module.css';
 
@@ -11,17 +13,12 @@ export default async function AddProductPage() {
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) redirect('/entrar?next=/painel/produtos/novo');
 
-  // RLS: só devolve Ujas de quem tem sessão. MVP: 1 Morador = 1 Uja.
-  const { data: uja } = await supabase
-    .from('monira_ujas')
-    .select('id, name')
-    .order('created_at')
-    .limit(1)
-    .maybeSingle();
+  const uja = await getMyUja(supabase, user.id);
 
   return (
     <main className={styles.screen}>
       <header className={styles.header}>
+        <Link href="/painel" className={styles.back}>← Painel</Link>
         <h1 className={styles.title}>Adicionar produto</h1>
         {uja && <p className={styles.subtitle}>{uja.name}</p>}
       </header>

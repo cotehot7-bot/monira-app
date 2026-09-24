@@ -4,7 +4,7 @@ import { createClient } from '@/lib/db/server';
 // Destino do link de entrada enviado por email.
 // Troca o código do link por uma sessão e segue para onde a pessoa ia.
 function safeNext(value: string | null) {
-  return value && value.startsWith('/') && !value.startsWith('//') ? value : '/painel/produtos/novo';
+  return value && value.startsWith('/') && !value.startsWith('//') ? value : '/painel';
 }
 
 export async function GET(request: NextRequest) {

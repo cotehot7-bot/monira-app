@@ -1,6 +1,7 @@
 'use client';
 
 import { useActionState, useEffect, useRef, useState } from 'react';
+import Link from 'next/link';
 import { createClient } from '@/lib/db/browser';
 import { submitProduct, type SubmitState } from './actions';
 import styles from './page.module.css';
@@ -111,8 +112,11 @@ export default function AddProductForm({ ujaId }: { ujaId: string }) {
           <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M6 12.5l4 4L18 8" /></svg>
         </span>
         <h2 className={styles.doneTitle}>Recebido.</h2>
-        <p className={styles.doneText}>A Monira está a preparar a apresentação. O produto aparece na tua Uja quando estiver pronto.</p>
-        <button type="button" className={styles.secondary} onClick={startOver}>Adicionar outro produto</button>
+        <p className={styles.doneText}>A Monira vai preparar o teu produto antes de o publicar.</p>
+        <div className={styles.doneActions}>
+          <Link href="/painel" className={styles.primaryLink}>Ver os meus produtos</Link>
+          <button type="button" className={styles.secondary} onClick={startOver}>Adicionar outro</button>
+        </div>
       </section>
     );
   }

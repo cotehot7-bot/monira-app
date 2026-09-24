@@ -7,7 +7,7 @@ export const metadata: Metadata = { title: 'Entrar · Monira' };
 // Só aceita destinos internos (evita redireccionar para outro site).
 function safeNext(value: string | string[] | undefined) {
   const next = Array.isArray(value) ? value[0] : value;
-  return next && next.startsWith('/') && !next.startsWith('//') ? next : '/painel/produtos/novo';
+  return next && next.startsWith('/') && !next.startsWith('//') ? next : '/painel';
 }
 
 export default async function EntrarPage(props: PageProps<'/entrar'>) {

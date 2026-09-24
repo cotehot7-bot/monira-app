@@ -1,0 +1,130 @@
+import type { Metadata } from 'next';
+import Link from 'next/link';
+import { redirect } from 'next/navigation';
+import { createClient } from '@/lib/db/server';
+import { getMyUja } from '@/lib/db/seller';
+import { greeting } from '@/lib/greeting';
+import { formatKz, photoUrl } from '@/lib/public';
+import styles from './painel.module.css';
+
+export const metadata: Metadata = { title: 'Painel · Monira' };
+
+// Estados que quem vende vê. Os estados internos (admin_reviewed, needs_review…) ficam na Monira.
+// "Precisa de atenção" entra quando a revisão puder pedir alterações.
+type SellerStatus = 'published' | 'in_review';
+const STATUS_LABEL: Record<SellerStatus, string> = {
+  published: 'Publicado',
+  in_review: 'Em revisão',
+};
+
+type OwnProduct = {
+  id: string;
+  raw_name: string | null;
+  name: string | null;
+  price_kz: number;
+  raw_photos: string[] | null;
+  photos: string[] | null;
+  admin_reviewed: boolean;
+  created_at: string;
+};
+
+export default async function PainelPage() {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) redirect('/entrar?next=/painel');
+
+  const uja = await getMyUja(supabase, user.id);
+  if (!uja) {
+    return (
+      <main className={styles.screen}>
+        <section className={styles.intro}>
+          <h1 className={styles.greeting}>{greeting()}.</h1>
+          <p className={styles.state}>A tua Uja ainda está a ser preparada.</p>
+        </section>
+      </main>
+    );
+  }
+
+  const { data } = await supabase
+    .from('monira_products')
+    .select('id, raw_name, name, price_kz, raw_photos, photos, admin_reviewed, created_at')
+    .eq('uja_id', uja.id)
+    .eq('active', true)
+    .order('created_at', { ascending: false });
+  const products = (data ?? []) as OwnProduct[];
+
+  // Em revisão ainda não há foto pública: mostra-se o original, que só quem vende consegue abrir.
+  const rawFirst = products.filter((p) => !p.admin_reviewed && p.raw_photos?.[0]).map((p) => p.raw_photos![0]);
+  const { data: signed } = rawFirst.length
+    ? await supabase.storage.from('monira-raw').createSignedUrls(rawFirst, 600)
+    : { data: [] };
+  const signedByPath = new Map((signed ?? []).map((s) => [s.path, s.signedUrl]));
+
+  return (
+    <main className={styles.screen}>
+      <section className={styles.intro}>
+        <h1 className={styles.greeting}>
+          {greeting()}, {uja.name}.
+          <br />
+          A tua Uja está {uja.is_open ? 'aberta' : 'fechada'}.
+        </h1>
+        <Link href="/painel/produtos/novo" className={styles.add}>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14" /></svg>
+          Adicionar produto
+        </Link>
+      </section>
+
+      <section className={styles.products} aria-labelledby="produtos">
+        <h2 id="produtos" className={styles.sectionTitle}>Produtos</h2>
+
+        {products.length === 0 ? (
+          <p className={styles.empty}>Ainda não tens produtos. Começa por adicionar o primeiro.</p>
+        ) : (
+          <ul className={styles.list}>
+            {products.map((p) => {
+              const status: SellerStatus = p.admin_reviewed ? 'published' : 'in_review';
+              const title = (status === 'published' ? p.name : null) ?? p.raw_name ?? 'Produto';
+              const src =
+                status === 'published' && p.photos?.[0]
+                  ? photoUrl(p.photos[0])
+                  : p.raw_photos?.[0] ? signedByPath.get(p.raw_photos[0]) : undefined;
+
+              const content = (
+                <>
+                  {src ? (
+                    // eslint-disable-next-line @next/next/no-img-element -- foto pública tratada ou URL assinado temporário
+                    <img src={src} alt="" className={styles.thumb} />
+                  ) : (
+                    <span className={styles.thumb} />
+                  )}
+                  <span className={styles.rowText}>
+                    <span className={styles.rowTitle}>{title}</span>
+                    <span className={styles.rowPrice}>{formatKz(p.price_kz)}</span>
+                    <span className={status === 'published' ? styles.published : styles.inReview}>{STATUS_LABEL[status]}</span>
+                  </span>
+                </>
+              );
+
+              return (
+                <li key={p.id}>
+                  {status === 'published' ? (
+                    <Link href={`/produto/${p.id}`} className={styles.row}>
+                      {content}
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8a8a8a" strokeWidth="1.8" strokeLinecap="round" aria-hidden="true"><path d="M9 6l6 6-6 6" /></svg>
+                    </Link>
+                  ) : (
+                    <div className={styles.row}>{content}</div>
+                  )}
+                </li>
+              );
+            })}
+          </ul>
+        )}
+      </section>
+
+      <p className={styles.footer}>
+        <Link href={`/uja/${uja.slug}`}>Ver a minha Uja como os clientes a vêem</Link>
+      </p>
+    </main>
+  );
+}

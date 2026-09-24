@@ -3,21 +3,13 @@ import Link from 'next/link';
 import { createClient } from '@/lib/db/server';
 import { PUBLIC_PRODUCT_COLUMNS, type PublicProduct, isReady } from '@/lib/public';
 import ProductGrid from './_components/ProductGrid';
+import { greeting } from '@/lib/greeting';
 import styles from './inicio.module.css';
 
 export const metadata: Metadata = {
   title: 'Monira',
   description: 'Descobre o que chegou à Monira.',
 };
-
-function greeting() {
-  const hour = Number(
-    new Intl.DateTimeFormat('pt-PT', { hour: 'numeric', hourCycle: 'h23', timeZone: 'Africa/Luanda' }).format(new Date()),
-  );
-  if (hour < 12) return 'Bom dia.';
-  if (hour < 19) return 'Boa tarde.';
-  return 'Boa noite.';
-}
 
 // Escapa os caracteres especiais do ILIKE e do filtro do PostgREST.
 function searchPattern(q: string) {
@@ -57,7 +49,7 @@ export default async function Inicio(props: PageProps<'/'>) {
 
       <section className={styles.intro}>
         <h1 className={styles.greeting}>
-          {greeting()}
+          {greeting()}.
           <br />
           Descobre o que chegou à Monira.
         </h1>
