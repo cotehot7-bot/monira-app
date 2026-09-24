@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import { createClient } from '@/lib/db/server';
 import { getMyUja } from '@/lib/db/seller';
+import { listConversations } from '@/lib/db/conversations';
 import { greeting } from '@/lib/greeting';
 import { formatKz, photoUrl } from '@/lib/public';
 import styles from './painel.module.css';
@@ -53,6 +54,8 @@ export default async function PainelPage() {
     .eq('active', true)
     .order('created_at', { ascending: false });
   const products = (data ?? []) as OwnProduct[];
+  const conversations = await listConversations(supabase, user.id, { ujaId: uja.id });
+  const pendingConversations = conversations.filter((c) => !c.lastFromMe).length;
 
   // Em revisão ainda não há foto pública: mostra-se o original, que só quem vende consegue abrir.
   const rawFirst = products.filter((p) => (!p.admin_reviewed || p.attention_note) && p.raw_photos?.[0]).map((p) => p.raw_photos![0]);
@@ -74,6 +77,17 @@ export default async function PainelPage() {
           Adicionar produto
         </Link>
       </section>
+
+      <Link href="/painel/conversas" className={styles.conversations}>
+        <span className={styles.conversationsText}>
+          <span className={styles.conversationsTitle}>Conversas</span>
+          <span className={styles.conversationsMeta}>
+            {pendingConversations ? `${pendingConversations} por responder` : conversations.length ? 'Tudo respondido' : 'Ainda sem conversas'}
+          </span>
+        </span>
+        {pendingConversations > 0 && <span className={styles.badge}>{pendingConversations}</span>}
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8a8a8a" strokeWidth="1.8" strokeLinecap="round" aria-hidden="true"><path d="M9 6l6 6-6 6" /></svg>
+      </Link>
 
       <section className={styles.products} aria-labelledby="produtos">
         <h2 id="produtos" className={styles.sectionTitle}>Produtos</h2>

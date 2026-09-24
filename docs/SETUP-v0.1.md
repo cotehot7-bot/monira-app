@@ -42,3 +42,13 @@ converter para JPEG ao escolher.
 
 ## Poder editorial (005)
 Correr `src/data/migrations/005_editorial.sql`. Sem mais configuração.
+
+## Conversa (006)
+1. Correr `src/data/migrations/006_conversa.sql`.
+2. (Opcional) Contactos da Uja para "Continuar no WhatsApp · Ligar" dentro da conversa:
+   `update monira_ujas set whatsapp = '+244 934 285 368', phone = '+244 934 285 368' where slug = 'hot7-store';`
+3. Para testar o lado de quem compra é precisa **outra conta** (quem vende não conversa consigo próprio).
+   O email gratuito do Supabase só entrega a membros da organização: convidar o segundo email em
+   Organization → Team → Invite, ou configurar SMTP próprio.
+
+Privacidade: nem a Monira (admin) lê conversas entre clientes e Ujas.

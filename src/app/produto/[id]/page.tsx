@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation';
 import { createClient } from '@/lib/db/server';
 import { PUBLIC_PRODUCT_COLUMNS, type PublicProduct, isReady, photoUrl, formatKz } from '@/lib/public';
 import { VerifiedMark } from '../../_components/ProductGrid';
+import { startConversation } from '../../conversas/actions';
 import styles from './produto.module.css';
 
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
@@ -70,6 +71,13 @@ export default async function ProdutoPage(props: PageProps<'/produto/[id]'>) {
             </ul>
           </div>
         )}
+
+        <form action={startConversation.bind(null, product.id)} className={styles.talk}>
+          <button type="submit" className={styles.talkButton}>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 18.5V6.5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2H9l-4 3z" /></svg>
+            Conversar sobre este produto
+          </button>
+        </form>
 
         {uja && (
           <Link href={`/uja/${uja.slug}`} className={styles.seller}>

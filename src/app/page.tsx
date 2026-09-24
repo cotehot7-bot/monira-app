@@ -33,9 +33,10 @@ export default async function Inicio(props: PageProps<'/'>) {
     query = query.or(`name.ilike.${pattern},description.ilike.${pattern}`);
   }
 
-  const [{ data: rows }, { data: ujas }] = await Promise.all([
+  const [{ data: rows }, { data: ujas }, { data: auth }] = await Promise.all([
     query,
     supabase.from('monira_public_ujas').select('id, name, verified'),
+    supabase.auth.getUser(),
   ]);
 
   const products = ((rows ?? []) as PublicProduct[]).filter(isReady);
@@ -45,6 +46,7 @@ export default async function Inicio(props: PageProps<'/'>) {
     <main className={styles.screen}>
       <header className={styles.top}>
         <Link href="/" className={styles.wordmark}>Monira</Link>
+        {auth.user && <Link href="/conversas" className={styles.topLink}>Conversas</Link>}
       </header>
 
       <section className={styles.intro}>
