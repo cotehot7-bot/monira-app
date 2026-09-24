@@ -4,8 +4,15 @@ Problemas observados a usar o produto real. Só entram aqui descobertas de uso, 
 
 ## Aberto
 
+- **Email de entrada:** SMTP Gmail (monira.entrar) serve para testes. Antes de abrir a clientes reais:
+  domínio da Monira + serviço de envio transaccional.
+- **Comprar:** primeiro cliente real escreveu "Preciso adquirir hoje" (24 Set 2026). Depende da validação
+  técnica do prestador (confirmação por callback, liquidação directa na conta de quem vende).
 
 ## Resolvido
+
+- ~~Uja pública sem morada~~ → "Levantamento" na Uja e no produto. Observado a 24 Set 2026: primeira
+  pergunta de um cliente na Conversa foi "Onde estão localizados?".
 
 - ~~Revisão: rejeitar / esconder envios repetidos~~ → **Pedir alterações** (editorial, com histórico;
   quem vende vê "Precisa de atenção" e responde em **Corrigir**) e **Apagar** (só nunca publicados, sem pedidos).

@@ -17,7 +17,7 @@ async function load(id: string) {
   if (!product || !isReady(product)) return null;
 
   const [{ data: uja }, { data: options }] = await Promise.all([
-    supabase.from('monira_public_ujas').select('id, name, slug, verified, avenue_id').eq('id', product.uja_id).maybeSingle(),
+    supabase.from('monira_public_ujas').select('id, name, slug, verified, avenue_id, pickup_enabled, pickup_address').eq('id', product.uja_id).maybeSingle(),
     supabase.from('monira_product_options').select('name, position').eq('product_id', id).eq('active', true).order('position'),
   ]);
   const { data: avenue } = uja?.avenue_id
@@ -90,6 +90,9 @@ export default async function ProdutoPage(props: PageProps<'/produto/[id]'>) {
             </span>
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8a8a8a" strokeWidth="1.8" strokeLinecap="round" aria-hidden="true"><path d="M9 6l6 6-6 6" /></svg>
           </Link>
+        )}
+        {uja?.pickup_enabled && uja.pickup_address && (
+          <p className={styles.pickup}>Levantamento em {uja.pickup_address}</p>
         )}
       </section>
     </main>

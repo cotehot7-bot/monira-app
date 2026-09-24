@@ -17,6 +17,8 @@ type PublicUja = {
   logo_url: string | null;
   is_open: boolean;
   verified: boolean;
+  pickup_enabled: boolean;
+  pickup_address: string | null;
   avenue_id: string | null;
 };
 
@@ -26,7 +28,7 @@ async function load(slug: string) {
   const supabase = await createClient();
   const { data } = await supabase
     .from('monira_public_ujas')
-    .select('id, name, slug, description, image_url, logo_url, is_open, verified, avenue_id')
+    .select('id, name, slug, description, image_url, logo_url, is_open, verified, avenue_id, pickup_enabled, pickup_address')
     .eq('slug', slug)
     .maybeSingle();
   const uja = data as PublicUja | null;
@@ -38,6 +40,11 @@ async function load(slug: string) {
   ]);
 
   return { uja, avenue, products: ((rows ?? []) as PublicProduct[]).filter(isReady) };
+}
+
+// Pesquisa a morada no mapa, com a cidade para desambiguar.
+function mapsUrl(address: string) {
+  return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${address}, Luanda, Angola`)}`;
 }
 
 // Imagens publicadas pela Monira podem ser caminhos no bucket público ou URLs completos.
@@ -87,6 +94,13 @@ export default async function UjaPage(props: PageProps<'/uja/[slug]'>) {
           <span className={uja.is_open ? styles.dotOpen : styles.dotClosed} aria-hidden="true" />
           {uja.is_open ? 'Aberta agora' : 'Fechada'}
         </p>
+        {uja.pickup_enabled && uja.pickup_address && (
+          <div className={styles.pickup}>
+            <span className={styles.pickupLabel}>Levantamento</span>
+            <span className={styles.pickupAddress}>{uja.pickup_address}</span>
+            <a href={mapsUrl(uja.pickup_address)} target="_blank" rel="noopener noreferrer" className={styles.pickupMap}>Ver no mapa</a>
+          </div>
+        )}
         {uja.description && <p className={styles.about}>{uja.description}</p>}
       </section>
 
