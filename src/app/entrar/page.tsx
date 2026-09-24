@@ -15,7 +15,7 @@ export default async function EntrarPage(props: PageProps<'/entrar'>) {
   return (
     <main className={styles.screen}>
       <h1 className={styles.title}>Entrar</h1>
-      <EntrarForm next={safeNext(searchParams.next)} />
+      <EntrarForm next={safeNext(searchParams.next)} linkFailed={searchParams.erro === 'link'} />
     </main>
   );
 }
