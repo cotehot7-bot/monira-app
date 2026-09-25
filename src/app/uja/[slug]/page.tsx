@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { createClient } from '@/lib/db/server';
-import { PUBLIC_PRODUCT_COLUMNS, type PublicProduct, isReady, photoUrl } from '@/lib/public';
+import { PUBLIC_PRODUCT_COLUMNS, type PublicProduct, isReady, photoUrl, formatKz } from '@/lib/public';
 import ProductGrid, { VerifiedMark } from '../../_components/ProductGrid';
 import styles from './uja.module.css';
 
@@ -19,6 +19,8 @@ type PublicUja = {
   verified: boolean;
   pickup_enabled: boolean;
   pickup_address: string | null;
+  pickup_reference: string | null;
+  delivery_enabled: boolean;
   avenue_id: string | null;
 };
 
@@ -28,18 +30,24 @@ async function load(slug: string) {
   const supabase = await createClient();
   const { data } = await supabase
     .from('monira_public_ujas')
-    .select('id, name, slug, description, image_url, logo_url, is_open, verified, avenue_id, pickup_enabled, pickup_address')
+    .select('id, name, slug, description, image_url, logo_url, is_open, verified, avenue_id, pickup_enabled, pickup_address, pickup_reference, delivery_enabled')
     .eq('slug', slug)
     .maybeSingle();
   const uja = data as PublicUja | null;
   if (!uja) return null;
 
-  const [{ data: rows }, { data: avenue }] = await Promise.all([
+  const [{ data: rows }, { data: avenue }, { data: zones }] = await Promise.all([
     supabase.from('monira_public_products').select(PUBLIC_PRODUCT_COLUMNS).eq('uja_id', uja.id).order('created_at', { ascending: false }),
     uja.avenue_id ? supabase.from('monira_avenues').select('name').eq('id', uja.avenue_id).maybeSingle() : Promise.resolve({ data: null }),
+    supabase.from('monira_uja_delivery_zones').select('name, fee_kz').eq('uja_id', uja.id).order('position'),
   ]);
 
-  return { uja, avenue, products: ((rows ?? []) as PublicProduct[]).filter(isReady) };
+  return {
+    uja,
+    avenue,
+    zones: (zones ?? []).map((z) => ({ name: z.name as string, fee: Number(z.fee_kz) })),
+    products: ((rows ?? []) as PublicProduct[]).filter(isReady),
+  };
 }
 
 // Pesquisa a morada no mapa, com a cidade para desambiguar.
@@ -62,7 +70,7 @@ export default async function UjaPage(props: PageProps<'/uja/[slug]'>) {
   const { slug } = await props.params;
   const data = await load(slug);
   if (!data) notFound();
-  const { uja, avenue, products } = data;
+  const { uja, avenue, zones, products } = data;
 
   return (
     <main className={styles.screen}>
@@ -98,7 +106,18 @@ export default async function UjaPage(props: PageProps<'/uja/[slug]'>) {
           <div className={styles.pickup}>
             <span className={styles.pickupLabel}>Levantamento</span>
             <span className={styles.pickupAddress}>{uja.pickup_address}</span>
+            {uja.pickup_reference && <span className={styles.pickupReference}>{uja.pickup_reference}</span>}
             <a href={mapsUrl(uja.pickup_address)} target="_blank" rel="noopener noreferrer" className={styles.pickupMap}>Ver no mapa</a>
+          </div>
+        )}
+        {uja.delivery_enabled && zones.length > 0 && (
+          <div className={styles.pickup}>
+            <span className={styles.pickupLabel}>Entrega</span>
+            <ul className={styles.zoneList}>
+              {zones.map((z) => (
+                <li key={z.name}><span>{z.name}</span><span>{formatKz(z.fee)}</span></li>
+              ))}
+            </ul>
           </div>
         )}
         {uja.description && <p className={styles.about}>{uja.description}</p>}

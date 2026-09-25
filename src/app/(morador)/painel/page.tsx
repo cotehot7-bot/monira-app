@@ -89,6 +89,14 @@ export default async function PainelPage() {
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8a8a8a" strokeWidth="1.8" strokeLinecap="round" aria-hidden="true"><path d="M9 6l6 6-6 6" /></svg>
       </Link>
 
+      <Link href="/painel/uja" className={styles.conversations}>
+        <span className={styles.conversationsText}>
+          <span className={styles.conversationsTitle}>Minha Uja</span>
+          <span className={styles.conversationsMeta}>Estado, levantamento, entrega e contactos</span>
+        </span>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8a8a8a" strokeWidth="1.8" strokeLinecap="round" aria-hidden="true"><path d="M9 6l6 6-6 6" /></svg>
+      </Link>
+
       <section className={styles.products} aria-labelledby="produtos">
         <h2 id="produtos" className={styles.sectionTitle}>Produtos</h2>
 

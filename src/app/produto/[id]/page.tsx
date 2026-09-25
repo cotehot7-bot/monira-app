@@ -17,14 +17,17 @@ async function load(id: string) {
   if (!product || !isReady(product)) return null;
 
   const [{ data: uja }, { data: options }] = await Promise.all([
-    supabase.from('monira_public_ujas').select('id, name, slug, verified, avenue_id, pickup_enabled, pickup_address').eq('id', product.uja_id).maybeSingle(),
+    supabase.from('monira_public_ujas').select('id, name, slug, verified, avenue_id, is_open, pickup_enabled, pickup_address, delivery_enabled').eq('id', product.uja_id).maybeSingle(),
     supabase.from('monira_product_options').select('name, position').eq('product_id', id).eq('active', true).order('position'),
   ]);
-  const { data: avenue } = uja?.avenue_id
-    ? await supabase.from('monira_avenues').select('name').eq('id', uja.avenue_id).maybeSingle()
-    : { data: null };
+  const [{ data: avenue }, { data: zones }] = await Promise.all([
+    uja?.avenue_id ? supabase.from('monira_avenues').select('name').eq('id', uja.avenue_id).maybeSingle() : Promise.resolve({ data: null }),
+    uja?.delivery_enabled ? supabase.from('monira_uja_delivery_zones').select('fee_kz').eq('uja_id', uja.id) : Promise.resolve({ data: [] }),
+  ]);
+  const fees = (zones ?? []).map((z) => Number(z.fee_kz));
+  const deliveryFrom = fees.length ? Math.min(...fees) : null;
 
-  return { product, uja, avenue, options: (options ?? []).map((o) => o.name as string) };
+  return { product, uja, avenue, deliveryFrom, options: (options ?? []).map((o) => o.name as string) };
 }
 
 export async function generateMetadata(props: PageProps<'/produto/[id]'>): Promise<Metadata> {
@@ -42,7 +45,7 @@ export default async function ProdutoPage(props: PageProps<'/produto/[id]'>) {
   const { id } = await props.params;
   const data = await load(id);
   if (!data) notFound();
-  const { product, uja, avenue, options } = data;
+  const { product, uja, avenue, deliveryFrom, options } = data;
 
   return (
     <main className={styles.screen}>
@@ -91,6 +94,8 @@ export default async function ProdutoPage(props: PageProps<'/produto/[id]'>) {
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8a8a8a" strokeWidth="1.8" strokeLinecap="round" aria-hidden="true"><path d="M9 6l6 6-6 6" /></svg>
           </Link>
         )}
+        {uja && !uja.is_open && <p className={styles.closed}>A Uja está fechada neste momento.</p>}
+        {deliveryFrom !== null && <p className={styles.pickup}>Entrega a partir de {formatKz(deliveryFrom)}</p>}
         {uja?.pickup_enabled && uja.pickup_address && (
           <p className={styles.pickup}>Levantamento em {uja.pickup_address}</p>
         )}

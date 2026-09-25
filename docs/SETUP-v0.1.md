@@ -52,3 +52,8 @@ Correr `src/data/migrations/005_editorial.sql`. Sem mais configuração.
    Organization → Team → Invite, ou configurar SMTP próprio.
 
 Privacidade: nem a Monira (admin) lê conversas entre clientes e Ujas.
+
+## Minha Uja (007)
+Correr `src/data/migrations/007_minha_uja.sql`. Quem vende passa a gerir em `/painel/uja`:
+aberta/fechada, levantamento (morada + referência), entrega (zonas com preço) e contactos
+(com "Mostrar WhatsApp" e "Permitir chamadas" separados). A apresentação continua da Monira.

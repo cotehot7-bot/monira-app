@@ -27,4 +27,7 @@ Problemas observados a usar o produto real. Só entram aqui descobertas de uso, 
 2. Painel ✓ (mínimo: Uja aberta/fechada, Adicionar produto, Produtos com estado).
 3. Revisão — poder editorial ✓ (005).
 4. Conversa ✓ (006): produto → Conversar → conversa dos dois lados; actualização a cada 8 s (sem tempo real ainda).
-5. Comprar — depende da validação técnica do prestador de pagamento.
+5. Minha Uja ✓ (007): funcionamento gerido por quem vende; zonas com preço prontas para o Comprar.
+6. Tipos de letra (Fraunces / Instrument Sans) — antes de mostrar a terceiros.
+7. Comprar — depende da validação técnica do prestador de pagamento.
+8. Email com domínio da Monira — antes de clientes reais.
