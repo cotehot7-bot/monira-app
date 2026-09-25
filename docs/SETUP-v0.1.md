@@ -62,3 +62,19 @@ aberta/fechada, levantamento (morada + referência), entrega (zonas com preço) 
 Correr `src/data/migrations/008_novas_lojas.sql`. Quem quer vender pede em `/vender` (link "Vender na Monira"
 no fim do Início). A Monira decide em `/revisao/lojas`: aprovar cria a conta de quem vende e a Uja (fechada até
 quem vende a abrir na Minha Uja); recusar exige uma nota, que quem pediu vê. Sem SQL.
+
+## Avisos por email (009)
+1. Correr `src/data/migrations/009_avisos.sql`.
+2. Vercel → Settings → Environment Variables (Production):
+   - `SMTP_HOST` = `smtp.gmail.com`
+   - `SMTP_PORT` = `465`
+   - `SMTP_USER` = `monira.entrar@gmail.com`
+   - `SMTP_PASS` = palavra-passe de aplicação (16 letras, sem espaços) — **Secret**
+   - `EMAIL_FROM` = `Monira <monira.entrar@gmail.com>`
+   - `SITE_URL` = `https://monira-app.vercel.app`
+3. Redeploy.
+
+Eventos: nova mensagem de cliente → loja (nunca pelas mensagens da própria loja; no máximo um aviso por
+conversa a cada 10 min); produto publicado / alterações pedidas → loja; pedido para vender aprovado /
+recusado → quem pediu. Transporte TEMPORÁRIO (Gmail): trocar pelo serviço do domínio Monira mudando só as
+variáveis SMTP_*.

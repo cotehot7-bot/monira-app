@@ -2,6 +2,16 @@
 
 import { revalidatePath } from 'next/cache';
 import { createClient } from '@/lib/db/server';
+import { sendNotificationEmail } from '@/lib/notify';
+import type { SupabaseClient } from '@supabase/supabase-js';
+
+async function notifyApplicant(supabase: SupabaseClient, applicationId: string) {
+  const { data } = await supabase.rpc('monira_application_notification', { p_application_id: applicationId });
+  const n = Array.isArray(data) ? data[0] : null;
+  if (!n?.email) return;
+  if (n.status === 'aprovado') sendNotificationEmail({ kind: 'application_approved', to: n.email, ujaName: n.uja_name });
+  else sendNotificationEmail({ kind: 'application_rejected', to: n.email, note: n.note });
+}
 
 export type DecisionState = { status: 'idle' } | { status: 'done'; message: string } | { status: 'error'; message: string };
 
@@ -25,6 +35,7 @@ export async function approveApplication(applicationId: string, _prev: DecisionS
     p_verified: formData.get('verified') === 'on',
   });
   if (error) { const c = known(error.message); return { status: 'error', message: c ? MESSAGES[c] : 'Não foi possível aprovar.' }; }
+  await notifyApplicant(supabase, applicationId);
   revalidatePath('/revisao');
   revalidatePath('/revisao/lojas');
   return { status: 'done', message: `Aprovado. Uja criada em /uja/${slug} (fechada até quem vende a abrir).` };
@@ -37,6 +48,7 @@ export async function rejectApplication(applicationId: string, _prev: DecisionSt
     p_note: String(formData.get('note') ?? ''),
   });
   if (error) { const c = known(error.message); return { status: 'error', message: c ? MESSAGES[c] : 'Não foi possível recusar.' }; }
+  await notifyApplicant(supabase, applicationId);
   revalidatePath('/revisao');
   revalidatePath('/revisao/lojas');
   return { status: 'done', message: 'Recusado. Quem pediu vê a tua nota e pode pedir outra vez.' };

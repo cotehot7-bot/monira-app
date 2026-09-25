@@ -4,6 +4,19 @@ import sharp from 'sharp';
 import { redirect } from 'next/navigation';
 import { revalidatePath } from 'next/cache';
 import { createClient } from '@/lib/db/server';
+import { sendNotificationEmail } from '@/lib/notify';
+import type { SupabaseClient } from '@supabase/supabase-js';
+
+async function notifyProduct(supabase: SupabaseClient, productId: string, kind: 'product_published' | 'product_changes') {
+  const { data } = await supabase.rpc('monira_product_notification', { p_product_id: productId, p_kind: kind });
+  const n = Array.isArray(data) ? data[0] : null;
+  if (!n?.email) return;
+  if (kind === 'product_published') {
+    sendNotificationEmail({ kind, to: n.email, productId: n.product_id, productName: n.product_name });
+  } else {
+    sendNotificationEmail({ kind, to: n.email, productId: n.product_id, productName: n.product_name, note: n.note ?? '' });
+  }
+}
 
 export type PublishState = { status: 'idle' } | { status: 'error'; message: string };
 
@@ -81,6 +94,7 @@ export async function publishProduct(productId: string, _prev: PublishState, for
   });
   if (error) return { status: 'error', message: known(error.message) ?? 'Não foi possível publicar. Tenta outra vez.' };
 
+  await notifyProduct(supabase, productId, 'product_published');
   revalidatePath('/revisao');
   revalidatePath('/');
   redirect('/revisao?publicado=1');
@@ -94,6 +108,8 @@ export async function requestChanges(productId: string, _prev: PublishState, for
 
   const { error } = await supabase.rpc('monira_admin_request_changes', { p_product_id: productId, p_note: note });
   if (error) return { status: 'error', message: known(error.message) ?? 'Não foi possível enviar o pedido.' };
+
+  await notifyProduct(supabase, productId, 'product_changes');
 
   revalidatePath('/revisao');
   revalidatePath('/painel');

@@ -4,6 +4,9 @@ Problemas observados a usar o produto real. Só entram aqui descobertas de uso, 
 
 ## Aberto
 
+- **Avisos — a observar:** (a) o cliente não é avisado quando a loja responde; (b) o anti-cascata envia o
+  primeiro aviso e silencia 10 min — agrupar ("3 mensagens novas") quando houver volume. Diário de avisos
+  (monira_notification_log) já preparado para isso.
 - **Desktop:** a Monira é uma coluna de telemóvel; no ecrã grande a foto do produto ocupa quase toda a
   primeira vista. Sem urgência (público é telemóvel).
 - **Descoberta (24 Set 2026):** a hot7 definiu uma só zona, "Luanda e arredores — 3.000 Kz". Regra para o
@@ -35,5 +38,6 @@ Problemas observados a usar o produto real. Só entram aqui descobertas de uso, 
 5. Minha Uja ✓ (007): funcionamento gerido por quem vende; zonas com preço prontas para o Comprar.
 6. Tipos de letra ✓: Fraunces (identidade/editorial) + Instrument Sans (interface), locais, pré-carregados, CLS 0.
 7. Novas lojas ✓ (008): pedir em /vender → aprovar/recusar em /revisao/lojas.
-8. Comprar — depende da validação técnica do prestador de pagamento.
-9. Email com domínio da Monira — antes de clientes reais.
+8. Avisos por email ✓ (009): mensagem → loja; decisões editoriais → loja; pedido para vender → quem pediu.
+9. Comprar — depende da validação técnica do prestador de pagamento.
+10. Email com domínio da Monira — antes de clientes reais.
