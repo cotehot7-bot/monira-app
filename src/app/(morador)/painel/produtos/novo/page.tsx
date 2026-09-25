@@ -14,6 +14,7 @@ export default async function AddProductPage() {
   if (!user) redirect('/entrar?next=/painel/produtos/novo');
 
   const uja = await getMyUja(supabase, user.id);
+  if (!uja) redirect('/vender');
 
   return (
     <main className={styles.screen}>

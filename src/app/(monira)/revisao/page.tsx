@@ -58,6 +58,11 @@ export default async function ReviewListPage(props: PageProps<'/revisao'>) {
   const searchParams = await props.searchParams;
   const noticeKey = Object.keys(NOTICES).find((k) => searchParams[k] === '1');
 
+  const { count: pendingShops } = await supabase
+    .from('monira_applications')
+    .select('id', { count: 'exact', head: true })
+    .eq('status', 'pendente');
+
   const { data } = await supabase
     .from('monira_products')
     .select('id, raw_name, name, price_kz, raw_photos, admin_reviewed, needs_review, attention_note, created_at, uja:monira_ujas(name)')
@@ -85,6 +90,13 @@ export default async function ReviewListPage(props: PageProps<'/revisao'>) {
       </header>
 
       {noticeKey && <p className={styles.notice} role="status">{NOTICES[noticeKey]}</p>}
+
+      {(pendingShops ?? 0) > 0 && (
+        <Link href="/revisao/lojas" className={styles.shops}>
+          Lojas por aprovar
+          <span className={styles.shopsCount}>{pendingShops}</span>
+        </Link>
+      )}
 
       {toReview.length > 0 && (
         <List items={toReview} thumb={thumb} meta={(p) => `${ujaName(p)} · ${formatKz(p.price_kz)}${p.admin_reviewed ? ' · alterado' : ''}`} />

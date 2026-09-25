@@ -75,6 +75,10 @@ export default async function Inicio(props: PageProps<'/'>) {
           <ProductGrid products={products} ujaById={ujaById} />
         )}
       </section>
+
+      <footer className={styles.footer}>
+        <Link href="/vender">Vender na Monira</Link>
+      </footer>
     </main>
   );
 }

@@ -36,16 +36,7 @@ export default async function PainelPage() {
   if (!user) redirect('/entrar?next=/painel');
 
   const uja = await getMyUja(supabase, user.id);
-  if (!uja) {
-    return (
-      <main className={styles.screen}>
-        <section className={styles.intro}>
-          <h1 className={styles.greeting}>{greeting()}.</h1>
-          <p className={styles.state}>A tua Uja ainda está a ser preparada.</p>
-        </section>
-      </main>
-    );
-  }
+  if (!uja) redirect('/vender');
 
   const { data } = await supabase
     .from('monira_products')

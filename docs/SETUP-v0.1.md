@@ -57,3 +57,8 @@ Privacidade: nem a Monira (admin) lê conversas entre clientes e Ujas.
 Correr `src/data/migrations/007_minha_uja.sql`. Quem vende passa a gerir em `/painel/uja`:
 aberta/fechada, levantamento (morada + referência), entrega (zonas com preço) e contactos
 (com "Mostrar WhatsApp" e "Permitir chamadas" separados). A apresentação continua da Monira.
+
+## Novas lojas (008)
+Correr `src/data/migrations/008_novas_lojas.sql`. Quem quer vender pede em `/vender` (link "Vender na Monira"
+no fim do Início). A Monira decide em `/revisao/lojas`: aprovar cria a conta de quem vende e a Uja (fechada até
+quem vende a abrir na Minha Uja); recusar exige uma nota, que quem pediu vê. Sem SQL.

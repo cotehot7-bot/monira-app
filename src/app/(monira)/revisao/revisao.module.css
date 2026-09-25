@@ -60,3 +60,12 @@
 .history { margin: 28px 20px 40px; display: flex; flex-direction: column; gap: 8px; }
 .historyItem { font-size: 14px; color: #3a3a3a; line-height: 1.45; }
 .historyItem time { color: var(--muted); margin-right: 6px; }
+
+/* Lojas por aprovar */
+.application { padding-bottom: 24px; border-bottom: 1px solid #efefef; }
+.application .raw { margin-top: 20px; }
+.application .editorial { border-top: 0; padding-top: 0; margin-top: 16px; }
+.check { display: flex; align-items: center; gap: 10px; min-height: 44px; font-size: 15px; }
+.check input { width: 22px; height: 22px; accent-color: var(--ink); }
+.shops { margin: 16px 20px 0; padding: 14px 16px; border-radius: 16px; background: var(--soft); display: flex; justify-content: space-between; align-items: center; font-size: 16px; font-weight: 600; }
+.shopsCount { min-width: 26px; height: 26px; padding: 0 8px; border-radius: 13px; background: var(--ink); color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; }
