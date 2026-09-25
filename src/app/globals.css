@@ -18,7 +18,7 @@
   --monira-success: #059669;
   --monira-warning: #D97706;
   --monira-danger: #DC2626;
-  --font-monira: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-monira: var(--font-text), -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }

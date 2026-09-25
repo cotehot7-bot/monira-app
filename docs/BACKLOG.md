@@ -4,6 +4,11 @@ Problemas observados a usar o produto real. Só entram aqui descobertas de uso, 
 
 ## Aberto
 
+- **Desktop:** a Monira é uma coluna de telemóvel; no ecrã grande a foto do produto ocupa quase toda a
+  primeira vista. Sem urgência (público é telemóvel).
+- **Descoberta (24 Set 2026):** a hot7 definiu uma só zona, "Luanda e arredores — 3.000 Kz". Regra para o
+  Comprar: com uma só opção activa, mostrar "Entrega — 3.000 Kz · Luanda e arredores" e pedir a morada, sem
+  seleccionar zona; com várias, perguntar "Onde queres receber?".
 - **Email de entrada:** SMTP Gmail (monira.entrar) serve para testes. Antes de abrir a clientes reais:
   domínio da Monira + serviço de envio transaccional.
 - **Comprar:** primeiro cliente real escreveu "Preciso adquirir hoje" (24 Set 2026). Depende da validação
@@ -28,6 +33,6 @@ Problemas observados a usar o produto real. Só entram aqui descobertas de uso, 
 3. Revisão — poder editorial ✓ (005).
 4. Conversa ✓ (006): produto → Conversar → conversa dos dois lados; actualização a cada 8 s (sem tempo real ainda).
 5. Minha Uja ✓ (007): funcionamento gerido por quem vende; zonas com preço prontas para o Comprar.
-6. Tipos de letra (Fraunces / Instrument Sans) — antes de mostrar a terceiros.
+6. Tipos de letra ✓: Fraunces (identidade/editorial) + Instrument Sans (interface), locais, pré-carregados, CLS 0.
 7. Comprar — depende da validação técnica do prestador de pagamento.
 8. Email com domínio da Monira — antes de clientes reais.

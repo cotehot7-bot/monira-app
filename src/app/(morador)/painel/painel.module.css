@@ -5,10 +5,10 @@
   padding-top: env(safe-area-inset-top, 0px);
   padding-bottom: calc(40px + env(safe-area-inset-bottom, 0px));
   background: #fff; color: var(--ink);
-  font-family: 'Instrument Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-family: var(--font-text), -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
 .intro { padding: 40px 20px 0; display: flex; flex-direction: column; gap: 24px; }
-.greeting { font-family: 'Fraunces', Georgia, serif; font-weight: 400; font-size: 32px; line-height: 1.12; letter-spacing: -0.025em; }
+.greeting { font-family: var(--font-display), Georgia, serif; font-weight: 400; font-size: 32px; line-height: 1.12; letter-spacing: -0.025em; }
 .state { font-size: 16px; color: #3a3a3a; }
 .add {
   height: 56px; border-radius: 28px; background: var(--ink); color: #fff;
@@ -17,7 +17,7 @@
 }
 
 .products { padding: 32px 20px 0; display: flex; flex-direction: column; gap: 8px; }
-.sectionTitle { font-family: 'Fraunces', Georgia, serif; font-weight: 400; font-size: 26px; letter-spacing: -0.02em; margin-bottom: 4px; }
+.sectionTitle { font-family: var(--font-text), -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-weight: 600; font-size: 20px; letter-spacing: -0.015em; margin-bottom: 4px; }
 .empty { font-size: 16px; color: var(--muted); }
 .list { list-style: none; }
 .row { display: flex; align-items: center; gap: 14px; padding: 14px 0; border-bottom: 1px solid #efefef; }

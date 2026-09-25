@@ -5,7 +5,7 @@
   padding-top: env(safe-area-inset-top, 0px);
   padding-bottom: calc(40px + env(safe-area-inset-bottom, 0px));
   background: #fff; color: var(--ink);
-  font-family: 'Instrument Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-family: var(--font-text), -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
 .top { height: 56px; padding: 6px 12px 0; display: flex; align-items: center; }
 .back { width: 44px; height: 44px; border-radius: 22px; display: flex; align-items: center; justify-content: center; color: var(--ink); }
@@ -15,17 +15,17 @@
 .logo { object-fit: cover; }
 .monogram {
   display: flex; align-items: center; justify-content: center;
-  background: #f4f4f3; font-family: 'Fraunces', Georgia, serif; font-size: 32px;
+  background: #f4f4f3; font-family: var(--font-display), Georgia, serif; font-size: 32px;
 }
 .eyebrow { font-size: 12px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
-.name { display: flex; align-items: center; gap: 8px; font-family: 'Fraunces', Georgia, serif; font-weight: 400; font-size: 32px; letter-spacing: -0.02em; line-height: 1.1; }
+.name { display: flex; align-items: center; gap: 8px; font-family: var(--font-display), Georgia, serif; font-weight: 400; font-size: 32px; letter-spacing: -0.02em; line-height: 1.1; }
 .status { display: flex; align-items: center; gap: 8px; font-size: 15px; color: #3a3a3a; }
 .dotOpen, .dotClosed { width: 8px; height: 8px; border-radius: 4px; }
 .dotOpen { background: #1f8a4c; }
 .dotClosed { background: #b0b0b0; }
 .about { margin-top: 8px; font-size: 16px; line-height: 1.5; color: #3a3a3a; white-space: pre-line; }
 .products { padding: 36px 20px 0; display: flex; flex-direction: column; gap: 16px; }
-.sectionTitle { font-family: 'Fraunces', Georgia, serif; font-weight: 400; font-size: 26px; letter-spacing: -0.02em; }
+.sectionTitle { font-family: var(--font-text), -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-weight: 600; font-size: 20px; letter-spacing: -0.015em; }
 .empty { font-size: 16px; color: var(--muted); }
 .pickup { margin-top: 10px; padding: 14px 16px; border-radius: 16px; background: #f4f4f3; display: flex; flex-direction: column; gap: 2px; }
 .pickupLabel { font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
