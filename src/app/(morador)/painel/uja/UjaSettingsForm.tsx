@@ -14,6 +14,8 @@ export type UjaSettings = {
   whatsapp_public: boolean;
   phone: string;
   calls_enabled: boolean;
+  accepts_pay_on_delivery: boolean;
+  accepts_pay_on_pickup: boolean;
 };
 
 type Zone = { key: string; name: string; fee: string };
@@ -62,11 +64,13 @@ export default function UjaSettingsForm({ ujaId, initial, zones: initialZones }:
           <label htmlFor="pickup_reference" className={styles.label}>Referência (opcional)</label>
           <input id="pickup_reference" name="pickup_reference" defaultValue={initial.pickup_reference} maxLength={200} placeholder="Ex.: ao lado da farmácia" className={styles.input} />
         </div>
+        <Toggle name="accepts_pay_on_pickup" label="Aceita pagamento no levantamento" hint="O cliente faz o pedido na Monira e paga quando levanta." defaultChecked={initial.accepts_pay_on_pickup} />
       </section>
 
       <section className={styles.block} aria-labelledby="entrega">
         <h2 id="entrega" className={styles.blockTitle}>Entrega</h2>
         <Toggle name="delivery_enabled" label="Permitir entrega" defaultChecked={initial.delivery_enabled} />
+        <Toggle name="accepts_pay_on_delivery" label="Aceita pagamento na entrega" hint="O cliente faz o pedido na Monira e paga quando recebe." defaultChecked={initial.accepts_pay_on_delivery} />
         <ul className={styles.zones}>
           {zones.map((z, i) => (
             <li key={z.key} className={styles.zone}>

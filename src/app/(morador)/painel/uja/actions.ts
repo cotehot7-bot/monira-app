@@ -36,6 +36,8 @@ export async function saveUjaSettings(ujaId: string, _prev: SaveState, formData:
     whatsapp_public: on('whatsapp_public'),
     phone: text('phone'),
     calls_enabled: on('calls_enabled'),
+    accepts_pay_on_delivery: on('accepts_pay_on_delivery'),
+    accepts_pay_on_pickup: on('accepts_pay_on_pickup'),
   };
 
   const names = formData.getAll('zone_name').map((v) => String(v).trim());

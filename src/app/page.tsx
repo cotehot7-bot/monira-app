@@ -46,7 +46,12 @@ export default async function Inicio(props: PageProps<'/'>) {
     <main className={styles.screen}>
       <header className={styles.top}>
         <Link href="/" className={styles.wordmark}>Monira</Link>
-        {auth.user && <Link href="/conversas" className={styles.topLink}>Conversas</Link>}
+        {auth.user && (
+          <nav className={styles.topNav} aria-label="A minha conta">
+            <Link href="/pedidos" className={styles.topLink}>Pedidos</Link>
+            <Link href="/conversas" className={styles.topLink}>Conversas</Link>
+          </nav>
+        )}
       </header>
 
       <section className={styles.intro}>

@@ -10,7 +10,8 @@ export type NotificationEvent =
   | { kind: 'product_published'; to: string; productId: string; productName: string }
   | { kind: 'product_changes'; to: string; productId: string; productName: string; note: string }
   | { kind: 'application_approved'; to: string; ujaName: string | null }
-  | { kind: 'application_rejected'; to: string; note: string | null };
+  | { kind: 'application_rejected'; to: string; note: string | null }
+  | { kind: 'order_new'; to: string; orderId: string; orderNumber: string; productName: string | null; totalKz: number; paymentMethod: string };
 
 function siteUrl(path: string) {
   const base = (process.env.SITE_URL ?? 'https://monira-app.vercel.app').replace(/\/$/, '');
@@ -52,6 +53,12 @@ export function composeNotification(e: NotificationEvent) {
       const subject = 'A tua Uja foi aprovada';
       const line = `${e.ujaName ?? 'A tua Uja'} já existe na Monira. Para começar, abre-a em Minha Uja.`;
       return { subject, ...render(subject, [line], { label: 'Abrir o painel', path: '/painel' }) };
+    }
+    case 'order_new': {
+      const subject = `Novo pedido: ${e.productName ?? e.orderNumber}`;
+      const total = `${Math.round(e.totalKz).toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')} Kz`;
+      const pay = e.paymentMethod === 'on_pickup' ? `Recebes ${total} no levantamento.` : `Recebes ${total} na entrega.`;
+      return { subject, ...render(subject, [`Pedido ${e.orderNumber}.`, pay], { label: 'Ver pedido', path: `/painel/pedidos/${e.orderId}` }) };
     }
     case 'application_rejected': {
       const subject = 'Resposta ao teu pedido para vender';

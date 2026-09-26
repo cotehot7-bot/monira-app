@@ -17,7 +17,7 @@ async function load(id: string) {
   if (!product || !isReady(product)) return null;
 
   const [{ data: uja }, { data: options }] = await Promise.all([
-    supabase.from('monira_public_ujas').select('id, name, slug, verified, avenue_id, is_open, pickup_enabled, pickup_address, delivery_enabled').eq('id', product.uja_id).maybeSingle(),
+    supabase.from('monira_public_ujas').select('id, name, slug, verified, avenue_id, is_open, pickup_enabled, pickup_address, delivery_enabled, pay_on_delivery, pay_on_pickup').eq('id', product.uja_id).maybeSingle(),
     supabase.from('monira_product_options').select('name, position').eq('product_id', id).eq('active', true).order('position'),
   ]);
   const [{ data: avenue }, { data: zones }] = await Promise.all([
@@ -73,6 +73,10 @@ export default async function ProdutoPage(props: PageProps<'/produto/[id]'>) {
               {options.map((o) => <li key={o} className={styles.chip}>{o}</li>)}
             </ul>
           </div>
+        )}
+
+        {uja?.is_open && product.available && (uja.pay_on_delivery || uja.pay_on_pickup) && (
+          <Link href={`/comprar/${product.id}`} className={styles.buy}>Comprar</Link>
         )}
 
         <form action={startConversation.bind(null, product.id)} className={styles.talk}>

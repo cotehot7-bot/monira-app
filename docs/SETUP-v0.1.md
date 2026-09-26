@@ -78,3 +78,9 @@ Eventos: nova mensagem de cliente → loja (nunca pelas mensagens da própria lo
 conversa a cada 10 min); produto publicado / alterações pedidas → loja; pedido para vender aprovado /
 recusado → quem pediu. Transporte TEMPORÁRIO (Gmail): trocar pelo serviço do domínio Monira mudando só as
 variáveis SMTP_*.
+
+## Comprar com pagamento na entrega / levantamento (010)
+Correr `src/data/migrations/010_comprar_offline.sql`. Cada loja liga, na Minha Uja, "Aceita pagamento na
+entrega" e/ou "Aceita pagamento no levantamento". O botão Comprar só aparece com a Uja aberta e pelo menos um
+destes activo. Evidências separadas: `confirmed` (prestador, online, futuro) ≠ `seller_reported` (a loja declara
+que recebeu: dinheiro, TPA ou transferência).

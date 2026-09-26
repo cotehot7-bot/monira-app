@@ -46,6 +46,11 @@ export default async function PainelPage() {
     .order('created_at', { ascending: false });
   const products = (data ?? []) as OwnProduct[];
   const conversations = await listConversations(supabase, user.id, { ujaId: uja.id });
+  const { count: newOrders } = await supabase
+    .from('monira_orders')
+    .select('id', { count: 'exact', head: true })
+    .eq('uja_id', uja.id)
+    .eq('status', 'new');
   const pendingConversations = conversations.filter((c) => !c.lastFromMe).length;
 
   // Em revisão ainda não há foto pública: mostra-se o original, que só quem vende consegue abrir.
@@ -68,6 +73,15 @@ export default async function PainelPage() {
           Adicionar produto
         </Link>
       </section>
+
+      <Link href="/painel/pedidos" className={styles.conversations}>
+        <span className={styles.conversationsText}>
+          <span className={styles.conversationsTitle}>Pedidos</span>
+          <span className={styles.conversationsMeta}>{newOrders ? `${newOrders} ${newOrders === 1 ? 'novo' : 'novos'}` : 'Sem pedidos novos'}</span>
+        </span>
+        {(newOrders ?? 0) > 0 && <span className={styles.badge}>{newOrders}</span>}
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8a8a8a" strokeWidth="1.8" strokeLinecap="round" aria-hidden="true"><path d="M9 6l6 6-6 6" /></svg>
+      </Link>
 
       <Link href="/painel/conversas" className={styles.conversations}>
         <span className={styles.conversationsText}>

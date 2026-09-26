@@ -20,7 +20,7 @@ export default async function MinhaUjaPage() {
   const [{ data: uja }, { data: zones }] = await Promise.all([
     supabase
       .from('monira_ujas')
-      .select('is_open, pickup_enabled, pickup_address, pickup_reference, delivery_enabled, whatsapp, whatsapp_public, phone, calls_enabled')
+      .select('is_open, pickup_enabled, pickup_address, pickup_reference, delivery_enabled, whatsapp, whatsapp_public, phone, calls_enabled, accepts_pay_on_delivery, accepts_pay_on_pickup')
       .eq('id', mine.id)
       .single(),
     supabase.from('monira_uja_delivery_zones').select('name, fee_kz').eq('uja_id', mine.id).eq('active', true).order('position'),
@@ -48,6 +48,8 @@ export default async function MinhaUjaPage() {
           whatsapp_public: uja.whatsapp_public,
           phone: uja.phone ?? '',
           calls_enabled: uja.calls_enabled,
+          accepts_pay_on_delivery: uja.accepts_pay_on_delivery,
+          accepts_pay_on_pickup: uja.accepts_pay_on_pickup,
         }}
         zones={(zones ?? []).map((z) => ({ name: z.name as string, fee_kz: Number(z.fee_kz) }))}
       />
