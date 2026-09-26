@@ -4,8 +4,10 @@ Problemas observados a usar o produto real. Só entram aqui descobertas de uso, 
 
 ## Aberto
 
-- **Privacidade:** aviso simples publicado (/privacidade, rascunho). Antes da abertura pública: versão jurídica
-  completa (lei angolana de protecção de dados pessoais), termos de utilização.
+- **Privacidade:** texto publicado em /privacidade. Contacto TEMPORÁRIO monira.entrar@gmail.com → trocar por
+  privacidade@monira.ao quando o domínio e a caixa estiverem operacionais (constante CONTACT em
+  src/app/privacidade/page.tsx). Antes da abertura pública: revisão jurídica (lei angolana de protecção de dados;
+  frase "legislação europeia" — dados em Londres/Reino Unido, emails via Google) e termos de utilização.
 - **Pedidos — a observar:** risco de pedidos falsos no pagamento offline é da loja (hoje: telefone obrigatório e máx. 5
   pedidos abertos por cliente).
 - **Avisos — a observar:** o anti-cascata envia o
@@ -44,6 +46,6 @@ Problemas observados a usar o produto real. Só entram aqui descobertas de uso, 
 7. Novas lojas ✓ (008): pedir em /vender → aprovar/recusar em /revisao/lojas.
 8. Avisos por email ✓ (009): mensagem → loja; decisões editoriais → loja; pedido para vender → quem pediu.
 9. Comprar com pagamento na entrega/levantamento ✓ (010).
-10. Avisos ao cliente ✓ (011). → **Modo validação: ver docs/TESTE-COMERCIAL.md**
+10. Avisos ao cliente ✓ (011). → **Modo validação: ver docs/VALIDACAO-v0.1.md**
 11. Comprar online (MCX) — depende da validação técnica do prestador de pagamento.
 12. Email com domínio da Monira — antes de clientes reais.

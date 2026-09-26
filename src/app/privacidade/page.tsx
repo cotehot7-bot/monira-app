@@ -4,8 +4,9 @@ import styles from './privacidade.module.css';
 
 export const metadata: Metadata = { title: 'Privacidade · Monira' };
 
-// Texto de Carlos. O contacto está numa constante para poder ser trocado sem mexer no texto.
-const CONTACT = 'privacidade@monira.ao';
+// Texto de Carlos. Contacto TEMPORÁRIO até o domínio monira.ao e a caixa existirem;
+// depois: 'privacidade@monira.ao' (ver docs/BACKLOG.md).
+const CONTACT = 'monira.entrar@gmail.com';
 
 export default function PrivacidadePage() {
   return (

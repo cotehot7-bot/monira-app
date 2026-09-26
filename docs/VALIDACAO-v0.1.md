@@ -1,4 +1,9 @@
-# Monira — Primeiro teste comercial
+# Monira — Validação v0.1
+
+> O que aconteceu efectivamente com os primeiros utilizadores. A visão está em `VISAO.md`; problemas e
+> funcionalidades identificados em `BACKLOG.md`.
+
+**Estado:** construção congelada durante o período de observação.
 
 **Pergunta central:** a Monira consegue produzir uma experiência comercial sem intervenção nossa?
 
@@ -55,6 +60,11 @@ informação sobre quem recebe os dados dos pedidos. Versão jurídica completa 
 |---|---|---|---|---|
 |  |  |  |  |  |
 
-## Limpeza antes do teste
+## Antes dos convites
 
-- MON-2026-00001 (teste interno): cancelar com o motivo "Teste" — o registo fica no histórico.
+- [ ] Privacidade: `/privacidade` acessível, com contacto funcional (temporário: monira.entrar@gmail.com,
+      consultado regularmente).
+- [ ] MON-2026-00001 (teste interno): cancelado com o motivo "Teste" — o registo fica no histórico.
+- [ ] Convites: só os links das Ujas e do Início, sem explicar o conceito da Monira.
+
+**Início do período de observação:** ____ (7 dias a contar do primeiro convite)
