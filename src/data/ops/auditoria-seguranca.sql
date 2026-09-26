@@ -20,7 +20,7 @@ definer_visitante AS (
                                  'monira_uja_delivers', 'monira_is_conversation_participant', 'monira_is_product_owner',
                                  'monira_product_is_public')
               THEN 'ok (só responde sim/não)'
-              WHEN p.prorettype = 'trigger'::regtype THEN 'ok (só corre como trigger)'
+              WHEN p.prorettype IN ('trigger'::regtype, 'event_trigger'::regtype) THEN 'ok (só corre como trigger)'
               ELSE 'REVER' END AS estado
   FROM pg_proc p JOIN pg_namespace n ON n.oid = p.pronamespace
   WHERE n.nspname = 'public' AND p.prosecdef AND has_function_privilege('anon', p.oid, 'EXECUTE')
