@@ -4,10 +4,9 @@ Problemas observados a usar o produto real. Só entram aqui descobertas de uso, 
 
 ## Aberto
 
-- **Pedidos — a observar:** cliente não recebe aviso quando o pedido muda de estado (a caminho, concluído,
-  cancelado); risco de pedidos falsos no pagamento offline é da loja (hoje: telefone obrigatório e máx. 5
+- **Pedidos — a observar:** risco de pedidos falsos no pagamento offline é da loja (hoje: telefone obrigatório e máx. 5
   pedidos abertos por cliente).
-- **Avisos — a observar:** (a) o cliente não é avisado quando a loja responde; (b) o anti-cascata envia o
+- **Avisos — a observar:** o anti-cascata envia o
   primeiro aviso e silencia 10 min — agrupar ("3 mensagens novas") quando houver volume. Diário de avisos
   (monira_notification_log) já preparado para isso.
 - **Desktop:** a Monira é uma coluna de telemóvel; no ecrã grande a foto do produto ocupa quase toda a
@@ -43,5 +42,6 @@ Problemas observados a usar o produto real. Só entram aqui descobertas de uso, 
 7. Novas lojas ✓ (008): pedir em /vender → aprovar/recusar em /revisao/lojas.
 8. Avisos por email ✓ (009): mensagem → loja; decisões editoriais → loja; pedido para vender → quem pediu.
 9. Comprar com pagamento na entrega/levantamento ✓ (010).
-10. Comprar online (MCX) — depende da validação técnica do prestador de pagamento.
-11. Email com domínio da Monira — antes de clientes reais.
+10. Avisos ao cliente ✓ (011). → **Modo validação: ver docs/TESTE-COMERCIAL.md**
+11. Comprar online (MCX) — depende da validação técnica do prestador de pagamento.
+12. Email com domínio da Monira — antes de clientes reais.

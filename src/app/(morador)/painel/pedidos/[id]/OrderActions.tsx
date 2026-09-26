@@ -45,7 +45,8 @@ export default function OrderActions({ orderId, status, mode }: { orderId: strin
           <summary>Cancelar pedido</summary>
           <form action={cancelAction} className={styles.dangerBody}>
             <label htmlFor="reason" className={styles.label}>Motivo</label>
-            <textarea id="reason" name="reason" rows={2} maxLength={300} placeholder="Ex.: o cliente não apareceu" className={styles.textarea} />
+            <textarea id="reason" name="reason" rows={2} maxLength={300} placeholder="Ex.: sem stock do tamanho pedido" aria-describedby="reason-hint" className={styles.textarea} />
+            <span id="reason-hint" className={styles.hint}>O cliente vê este motivo.</span>
             <button type="submit" className={styles.secondary} disabled={busy}>{cancelling ? 'A cancelar…' : 'Cancelar pedido'}</button>
           </form>
         </details>

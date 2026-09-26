@@ -11,6 +11,9 @@ export type NotificationEvent =
   | { kind: 'product_changes'; to: string; productId: string; productName: string; note: string }
   | { kind: 'application_approved'; to: string; ujaName: string | null }
   | { kind: 'application_rejected'; to: string; note: string | null }
+  | { kind: 'reply'; to: string; conversationId: string; ujaName: string | null; productName: string | null; body: string }
+  | { kind: 'order_delivering'; to: string; orderId: string; orderNumber: string; productName: string | null; ujaName: string | null }
+  | { kind: 'order_cancelled'; to: string; orderId: string; orderNumber: string; productName: string | null; reason: string | null }
   | { kind: 'order_new'; to: string; orderId: string; orderNumber: string; productName: string | null; totalKz: number; paymentMethod: string };
 
 function siteUrl(path: string) {
@@ -53,6 +56,21 @@ export function composeNotification(e: NotificationEvent) {
       const subject = 'A tua Uja foi aprovada';
       const line = `${e.ujaName ?? 'A tua Uja'} já existe na Monira. Para começar, abre-a em Minha Uja.`;
       return { subject, ...render(subject, [line], { label: 'Abrir o painel', path: '/painel' }) };
+    }
+    case 'reply': {
+      const subject = `A ${e.ujaName ?? 'loja'} respondeu à tua mensagem`;
+      const lines = [...(e.productName ? [`Sobre ${e.productName}`] : []), `“${e.body}”`];
+      return { subject, ...render(subject, lines, { label: 'Ver conversa', path: `/conversas/${e.conversationId}` }) };
+    }
+    case 'order_delivering': {
+      const subject = 'O teu pedido está a caminho';
+      const line = `${e.productName ?? 'Pedido'}${e.ujaName ? ` · ${e.ujaName}` : ''} · ${e.orderNumber}`;
+      return { subject, ...render(subject, [line], { label: 'Ver pedido', path: `/pedidos/${e.orderId}` }) };
+    }
+    case 'order_cancelled': {
+      const subject = 'O teu pedido foi cancelado';
+      const lines = [`${e.productName ?? 'Pedido'} · ${e.orderNumber}`, ...(e.reason ? [`Motivo: ${e.reason}`] : [])];
+      return { subject, ...render(subject, lines, { label: 'Ver pedido', path: `/pedidos/${e.orderId}` }) };
     }
     case 'order_new': {
       const subject = `Novo pedido: ${e.productName ?? e.orderNumber}`;

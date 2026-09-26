@@ -48,6 +48,13 @@ export async function sendMessage(conversationId: string, _prev: SendState, form
     sendNotificationEmail({ kind: 'message', to: n.email, conversationId: n.conversation_id, productName: n.product_name, body: n.body });
   }
 
+  // …ou, se foi a loja a escrever, o cliente.
+  const { data: reply } = await supabase.rpc('monira_reply_notification', { p_message_id: message.id });
+  const r = Array.isArray(reply) ? reply[0] : null;
+  if (r?.email) {
+    sendNotificationEmail({ kind: 'reply', to: r.email, conversationId: r.conversation_id, ujaName: r.uja_name, productName: r.product_name, body: r.body });
+  }
+
   revalidatePath(`/conversas/${conversationId}`);
   revalidatePath('/painel/conversas');
   return { status: 'sent', at: Date.now() };

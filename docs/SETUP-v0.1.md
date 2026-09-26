@@ -84,3 +84,9 @@ Correr `src/data/migrations/010_comprar_offline.sql`. Cada loja liga, na Minha U
 entrega" e/ou "Aceita pagamento no levantamento". O botão Comprar só aparece com a Uja aberta e pelo menos um
 destes activo. Evidências separadas: `confirmed` (prestador, online, futuro) ≠ `seller_reported` (a loja declara
 que recebeu: dinheiro, TPA ou transferência).
+
+## Avisos ao cliente (011)
+Correr `src/data/migrations/011_avisos_cliente.sql`. A loja responde → o cliente recebe "A <loja> respondeu à
+tua mensagem"; "Começar entrega" → "O teu pedido está a caminho"; "Cancelar pedido" → "O teu pedido foi
+cancelado" (com o motivo, que a loja sabe que o cliente vê). Sem email de conclusão. Links exigem sessão do
+titular.

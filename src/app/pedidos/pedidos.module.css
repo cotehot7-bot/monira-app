@@ -48,3 +48,4 @@
 .rowTitle { font-size: 16px; font-weight: 600; }
 .rowMeta { font-size: 14px; color: var(--muted); }
 .badge { flex-shrink: 0; padding: 4px 10px; border-radius: 12px; background: var(--soft); font-size: 13px; font-weight: 600; }
+.hint { font-size: 13px; color: var(--muted); }
