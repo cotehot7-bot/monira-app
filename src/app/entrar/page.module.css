@@ -14,3 +14,5 @@
 .primary { margin-top: 10px; height: 56px; border: 0; border-radius: 28px; background: #1a1a1a; color: #fff; font: inherit; font-size: 17px; font-weight: 600; cursor: pointer; }
 .primary:disabled { opacity: 0.55; cursor: default; }
 .link { margin-top: 6px; min-height: 44px; border: 0; background: none; font: inherit; font-size: 15px; text-decoration: underline; text-underline-offset: 3px; color: #1a1a1a; cursor: pointer; }
+.legal { margin-top: 8px; font-size: 13px; line-height: 1.45; color: #6b6b6b; }
+.legal a { text-decoration: underline; text-underline-offset: 3px; color: #1a1a1a; }

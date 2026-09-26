@@ -41,6 +41,7 @@ export default function EntrarForm({ next, linkFailed }: { next: string; linkFai
       <input id="email" type="email" autoComplete="email" required value={email} onChange={(e) => setEmail(e.target.value)} className={styles.input} />
       {error && <p role="alert" className={styles.error}>{error}</p>}
       <button type="submit" disabled={pending || !email.trim()} className={styles.primary}>{pending ? 'A enviar…' : 'Enviar link'}</button>
+      <p className={styles.legal}>Ao entrar, aceitas a forma como a Monira trata os teus dados. <a href="/privacidade">Privacidade</a></p>
     </form>
   );
 }

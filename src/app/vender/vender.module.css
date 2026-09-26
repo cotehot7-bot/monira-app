@@ -24,3 +24,5 @@
 .state { padding: 40px 20px 0; display: flex; flex-direction: column; gap: 10px; }
 .stateTitle { font-family: var(--font-display), Georgia, serif; font-weight: 400; font-size: 36px; letter-spacing: -0.02em; }
 .text { font-size: 16px; line-height: 1.5; color: #3a3a3a; }
+.legal { font-size: 13px; line-height: 1.45; color: #6b6b6b; }
+.legal a { text-decoration: underline; text-underline-offset: 3px; color: #1a1a1a; }

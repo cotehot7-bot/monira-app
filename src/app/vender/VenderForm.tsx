@@ -43,6 +43,7 @@ export default function VenderForm({ categories }: { categories: { id: string; n
       </div>
       {state.status === 'error' && <p className={styles.error} role="alert">{state.message}</p>}
       <button type="submit" className={styles.primary} disabled={pending}>{pending ? 'A enviar…' : 'Enviar pedido'}</button>
+      <p className={styles.legal}>Os clientes a quem venderes vão ver o nome do teu negócio e a morada de levantamento. <a href="/privacidade">Privacidade</a></p>
     </form>
   );
 }

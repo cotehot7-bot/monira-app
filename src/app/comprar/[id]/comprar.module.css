@@ -51,3 +51,4 @@
 .error { font-size: 14px; color: #a12b2b; }
 .primary { height: 56px; border: 0; border-radius: 28px; background: var(--purple); color: #fff; font: inherit; font-size: 17px; font-weight: 600; cursor: pointer; }
 .primary:disabled { opacity: 0.5; cursor: default; }
+.hint a { text-decoration: underline; text-underline-offset: 3px; color: #1a1a1a; }

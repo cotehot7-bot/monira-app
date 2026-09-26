@@ -83,6 +83,7 @@ export default async function Inicio(props: PageProps<'/'>) {
 
       <footer className={styles.footer}>
         <Link href="/vender">Vender na Monira</Link>
+        <Link href="/privacidade">Privacidade</Link>
       </footer>
     </main>
   );

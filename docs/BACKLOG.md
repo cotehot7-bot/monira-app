@@ -4,6 +4,8 @@ Problemas observados a usar o produto real. Só entram aqui descobertas de uso, 
 
 ## Aberto
 
+- **Privacidade:** aviso simples publicado (/privacidade, rascunho). Antes da abertura pública: versão jurídica
+  completa (lei angolana de protecção de dados pessoais), termos de utilização.
 - **Pedidos — a observar:** risco de pedidos falsos no pagamento offline é da loja (hoje: telefone obrigatório e máx. 5
   pedidos abertos por cliente).
 - **Avisos — a observar:** o anti-cascata envia o

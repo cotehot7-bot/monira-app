@@ -93,7 +93,9 @@ export default function BuyForm(props: {
       <section className={styles.block}>
         <label htmlFor="phone" className={styles.label}>O teu telefone</label>
         <input id="phone" name="phone" type="tel" required defaultValue={props.phone} placeholder="+244 9XX XXX XXX" autoComplete="tel" className={styles.input} />
-        <span className={styles.hint}>Para a loja te contactar sobre o pedido.</span>
+        <span className={styles.hint}>
+          A loja recebe o teu telefone{mode === 'delivery' ? ' e a morada' : ''} para tratar do pedido. <a href="/privacidade">Privacidade</a>
+        </span>
       </section>
 
       <section className={styles.summary}>
