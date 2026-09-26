@@ -23,6 +23,13 @@ suficientemente validados.
 **Antes de convidar:** aviso de privacidade publicado (`/privacidade`), com contacto para eliminação de dados e
 informação sobre quem recebe os dados dos pedidos. Versão jurídica completa antes da abertura pública.
 
+## Medir com dados (sem perguntar a ninguém)
+
+Correr `src/data/ops/observacao.sql` no SQL Editor (mudar a data "desde" para o dia do primeiro convite).
+Mostra: contas novas, conversas iniciadas, conversas com resposta, tempo mediano de resposta, pedidos por estado,
+pedidos concluídos, avisos enviados, clientes que voltaram noutro dia, pedidos para vender. Contas da equipa e das
+lojas ficam fora das contagens de clientes.
+
 ## O que queremos descobrir
 
 | Observação | Pergunta | Evidência |

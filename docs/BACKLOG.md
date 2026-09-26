@@ -4,6 +4,8 @@ Problemas observados a usar o produto real. Só entram aqui descobertas de uso, 
 
 ## Aberto
 
+- **Testes:** 900_v0.1_cycle_tests pede entrega a uma Uja sem entregas ligadas (escrito antes da 007) —
+  actualizar para ligar entrega antes do pedido. Não afecta produção.
 - **Privacidade:** texto publicado em /privacidade. Contacto TEMPORÁRIO monira.entrar@gmail.com → trocar por
   privacidade@monira.ao quando o domínio e a caixa estiverem operacionais (constante CONTACT em
   src/app/privacidade/page.tsx). Antes da abertura pública: revisão jurídica (lei angolana de protecção de dados;

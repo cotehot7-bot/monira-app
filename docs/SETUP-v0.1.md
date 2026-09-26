@@ -90,3 +90,9 @@ Correr `src/data/migrations/011_avisos_cliente.sql`. A loja responde → o clien
 tua mensagem"; "Começar entrega" → "O teu pedido está a caminho"; "Cancelar pedido" → "O teu pedido foi
 cancelado" (com o motivo, que a loja sabe que o cliente vê). Sem email de conclusão. Links exigem sessão do
 titular.
+
+## Segurança (012) e operação
+- `012_endurecer_permissoes.sql`: visitantes sem sessão não escrevem em nada; TRUNCATE retirado. Não muda o
+  comportamento (resultados de todos os testes idênticos antes e depois).
+- `src/data/ops/auditoria-seguranca.sql`: auditoria só de leitura. Correr depois de cada migração nova.
+- `src/data/ops/observacao.sql`: painel de observação da validação, só de leitura.
