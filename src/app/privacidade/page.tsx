@@ -4,9 +4,8 @@ import styles from './privacidade.module.css';
 
 export const metadata: Metadata = { title: 'Privacidade · Monira' };
 
-// RASCUNHO para o teste controlado. Descreve o que o sistema faz hoje.
-// A versão jurídica completa é revista antes da abertura pública.
-const CONTACT = 'monira.entrar@gmail.com';
+// Texto de Carlos. O contacto está numa constante para poder ser trocado sem mexer no texto.
+const CONTACT = 'privacidade@monira.ao';
 
 export default function PrivacidadePage() {
   return (
@@ -14,44 +13,65 @@ export default function PrivacidadePage() {
       <header className={styles.header}>
         <Link href="/" className={styles.back}>← Início</Link>
         <h1 className={styles.title}>Privacidade</h1>
-        <p className={styles.lead}>A Monira está em teste. Explicamos aqui, de forma simples, que dados guardamos e porquê.</p>
+        <p className={styles.lead}>Os teus dados são teus. A Monira só os usa para o que pediste.</p>
       </header>
 
       <section className={styles.section}>
-        <h2>Que dados guardamos</h2>
+        <h2>O que guardamos</h2>
+        <h3>Se compras na Monira:</h3>
         <ul>
-          <li>O teu email, para entrares na Monira.</li>
-          <li>Quando fazes um pedido: o teu telefone e a morada de entrega.</li>
-          <li>As mensagens que trocas numa Conversa.</li>
-          <li>Se vendes na Monira: o nome do negócio, os contactos, a morada de levantamento e as fotografias dos produtos.</li>
+          <li>Email — para entrares na plataforma</li>
+          <li>Telefone e morada de entrega — só quando fazes um pedido</li>
+          <li>Mensagens trocadas numa Conversa</li>
+        </ul>
+        <h3>Se vendes na Monira:</h3>
+        <ul>
+          <li>Nome do negócio, contactos e morada de levantamento</li>
+          <li>Fotografias dos produtos</li>
         </ul>
       </section>
 
       <section className={styles.section}>
         <h2>Para quê</h2>
-        <p>Para a Monira funcionar: entrar, conversar, fazer e entregar pedidos, e avisar-te por email quando há algo novo. Não vendemos os teus dados nem os usamos para publicidade.</p>
+        <p>Para a Monira funcionar: entrar, conversar, fazer e receber pedidos, e avisar-te quando há novidades.</p>
+        <p>Não vendemos os teus dados. Não os usamos para publicidade. Nunca.</p>
       </section>
 
       <section className={styles.section}>
         <h2>Quem vê o quê</h2>
-        <ul>
-          <li><strong>A loja a quem compras</strong> recebe o teu telefone, a morada de entrega e os detalhes do pedido, para o poder entregar.</li>
-          <li><strong>As conversas</strong> são entre ti e a loja. Hoje, a equipa da Monira não as lê. Se isso mudar, avisamos antes.</li>
-          <li><strong>A equipa da Monira</strong> vê os produtos e os pedidos para vender, para os rever.</li>
-        </ul>
+        <div className={styles.tableWrap}>
+          <table className={styles.table}>
+            <thead>
+              <tr><th scope="col">Quem</th><th scope="col">O quê</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>A loja onde compras</td><td>Telefone, morada de entrega e detalhes do pedido — para te entregar</td></tr>
+              <tr><td>Tu e a loja</td><td>As mensagens da Conversa — mais ninguém</td></tr>
+              <tr><td>Equipa Monira</td><td>Produtos e pedidos, para garantir que tudo corre bem</td></tr>
+              <tr><td>Parceiros técnicos</td><td>Acesso limitado ao mínimo necessário para o serviço funcionar</td></tr>
+            </tbody>
+          </table>
+        </div>
       </section>
 
       <section className={styles.section}>
-        <h2>Onde ficam</h2>
-        <p>Os dados ficam guardados em servidores na Europa (Londres). Os emails de aviso são enviados a partir de uma conta de email da Monira.</p>
+        <h2>Onde ficam os dados</h2>
+        <p>Em servidores fora de Angola, protegidos pela legislação europeia de protecção de dados. Isso significa que existem regras legais sobre como os teus dados podem ser usados — e nós cumprimo-las.</p>
       </section>
 
       <section className={styles.section}>
-        <h2>Apagar os teus dados</h2>
-        <p>Podes pedir para ver, corrigir ou apagar os teus dados. Escreve para <a href={`mailto:${CONTACT}`}>{CONTACT}</a> a partir do email com que entras na Monira.</p>
+        <h2>A Monira está em teste</h2>
+        <p>Isso não muda a forma como tratamos os teus dados. As mesmas regras desta página aplicam-se desde o primeiro dia. Se alguma coisa mudar, avisamos antes — não depois.</p>
+        <p>Se a Monira encerrar, apagamos os teus dados.</p>
       </section>
 
-      <p className={styles.meta}>Versão de teste · Setembro de 2026</p>
+      <section className={styles.section}>
+        <h2>Os teus direitos</h2>
+        <p>Podes pedir para ver, corrigir ou apagar os teus dados a qualquer momento. Respondemos em até 5 dias úteis.</p>
+        <p>Escreve para <a href={`mailto:${CONTACT}`}>{CONTACT}</a></p>
+      </section>
+
+      <p className={styles.meta}><em>Última actualização: Setembro 2026</em></p>
     </main>
   );
 }

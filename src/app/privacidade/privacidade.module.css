@@ -14,3 +14,9 @@
 .section ul { padding-left: 20px; display: flex; flex-direction: column; gap: 6px; }
 .section a { text-decoration: underline; text-underline-offset: 3px; color: #1a1a1a; }
 .meta { margin-top: 32px; font-size: 13px; color: #6b6b6b; }
+.section h3 { margin-top: 4px; font-size: 15px; font-weight: 600; color: #3a3a3a; }
+.tableWrap { overflow-x: auto; }
+.table { width: 100%; border-collapse: collapse; font-size: 15px; }
+.table th { text-align: left; font-size: 13px; font-weight: 600; color: #6b6b6b; padding: 8px 12px 8px 0; border-bottom: 1px solid #dedede; }
+.table td { vertical-align: top; padding: 12px 12px 12px 0; border-bottom: 1px solid #efefef; line-height: 1.45; color: #3a3a3a; }
+.table td:first-child { font-weight: 600; color: #1a1a1a; white-space: nowrap; }
